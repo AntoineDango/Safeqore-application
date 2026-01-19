@@ -172,10 +172,7 @@ export default function CompareScreen() {
         </View>
       </View>
 
-      {/* Légende */}
-      <Text style={{ marginTop:8, color:"#6b7280" }}>
-        Les valeurs en rouge indiquent une différence entre l’utilisateur et l’IA. Les badges de couleur indiquent la classification.
-      </Text>
+     
 
       
       </ScrollView>
