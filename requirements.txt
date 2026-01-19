@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+numpy
+pandas
+scikit-learn==1.6.1
+joblib
+pydantic
+langchain-groq
+xgboost
+lightgbm
+python-dotenv
+python-docx
+
+firebase-admin

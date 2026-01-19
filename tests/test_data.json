@@ -1,0 +1,380 @@
+{
+  "description": "Données de test SafeQore API - Conformité STB",
+
+  "scenarios_analyse_risque": [
+    {
+      "id": "CYBER-001",
+      "nom": "Cyberattaque ransomware",
+      "requete": {
+        "description": "Cyberattaque par ransomware sur les serveurs de production contenant les données clients sensibles. Absence de sauvegardes externalisées et de plan de reprise d'activité.",
+        "category": "Industriel",
+        "type": "Cyber & SSI",
+        "sector": "Technologie"
+      },
+      "classification_attendue": "Eleve",
+      "score_min_attendu": 51
+    },
+    {
+      "id": "CYBER-002",
+      "nom": "Fuite de données RGPD",
+      "requete": {
+        "description": "Fuite de données personnelles de 10000 clients suite à une mauvaise configuration du pare-feu. Risque d'amende RGPD et atteinte à la réputation.",
+        "category": "Industriel",
+        "type": "Cyber & SSI",
+        "sector": "PME"
+      },
+      "classification_attendue": "Eleve",
+      "score_min_attendu": 51
+    },
+    {
+      "id": "CYBER-003",
+      "nom": "Phishing ciblé",
+      "requete": {
+        "description": "Campagne de phishing ciblant les dirigeants de l'entreprise. Risque de compromission des accès administrateurs.",
+        "category": "Industriel",
+        "type": "Cyber & SSI",
+        "sector": "ETI"
+      },
+      "classification_attendue": "Moyen",
+      "score_min_attendu": 26
+    },
+    {
+      "id": "COMM-001",
+      "nom": "Perte client majeur",
+      "requete": {
+        "description": "Perte potentielle d'un client majeur représentant 15% du chiffre d'affaires suite à une insatisfaction sur les délais de livraison.",
+        "category": "Projet/Programme",
+        "type": "Commercial",
+        "sector": "PME"
+      },
+      "classification_attendue": "Moyen",
+      "score_min_attendu": 26
+    },
+    {
+      "id": "COMM-002",
+      "nom": "Concurrence agressive",
+      "requete": {
+        "description": "Arrivée d'un concurrent avec des prix 30% inférieurs. Risque de perte de parts de marché sur le segment principal.",
+        "category": "Projet/Programme",
+        "type": "Commercial",
+        "sector": "Startup"
+      },
+      "classification_attendue": "Moyen",
+      "score_min_attendu": 26
+    },
+    {
+      "id": "COMM-003",
+      "nom": "Insatisfaction client mineure",
+      "requete": {
+        "description": "Réclamation d'un client sur la qualité du support technique. Délai de réponse supérieur à 48h.",
+        "category": "Qualité",
+        "type": "Commercial",
+        "sector": "TPE"
+      },
+      "classification_attendue": "Faible",
+      "score_max_attendu": 25
+    },
+    {
+      "id": "FIN-001",
+      "nom": "Échec levée de fonds",
+      "requete": {
+        "description": "Échec de la levée de fonds série A. Trésorerie insuffisante pour couvrir les 6 prochains mois d'exploitation. Risque de cessation d'activité.",
+        "category": "Projet/Programme",
+        "type": "Financier",
+        "sector": "Startup"
+      },
+      "classification_attendue": "Eleve",
+      "score_min_attendu": 51
+    },
+    {
+      "id": "FIN-002",
+      "nom": "Impayés clients",
+      "requete": {
+        "description": "Accumulation d'impayés clients représentant 20% du chiffre d'affaires mensuel. Impact sur la trésorerie.",
+        "category": "Projet/Programme",
+        "type": "Financier",
+        "sector": "PME"
+      },
+      "classification_attendue": "Moyen",
+      "score_min_attendu": 26
+    },
+    {
+      "id": "FIN-003",
+      "nom": "Retard de paiement fournisseur",
+      "requete": {
+        "description": "Retard de paiement d'un fournisseur de 15 jours. Risque de rupture d'approvisionnement mineure.",
+        "category": "Projet/Programme",
+        "type": "Financier",
+        "sector": "TPE"
+      },
+      "classification_attendue": "Faible",
+      "score_max_attendu": 25
+    },
+    {
+      "id": "TECH-001",
+      "nom": "Panne serveur production",
+      "requete": {
+        "description": "Panne critique du serveur de production. Indisponibilité totale du service pendant 4 heures. Impact sur 5000 utilisateurs actifs.",
+        "category": "Industriel",
+        "type": "Technique",
+        "sector": "Technologie"
+      },
+      "classification_attendue": "Eleve",
+      "score_min_attendu": 51
+    },
+    {
+      "id": "TECH-002",
+      "nom": "Panne système GPS",
+      "requete": {
+        "description": "Panne du système de géolocalisation des véhicules de la flotte. Impact sur la planification des livraisons.",
+        "category": "Industriel",
+        "type": "Technique",
+        "sector": "Mobilité et Transport"
+      },
+      "classification_attendue": "Moyen",
+      "score_min_attendu": 26
+    },
+    {
+      "id": "TECH-003",
+      "nom": "Bug mineur interface",
+      "requete": {
+        "description": "Bug d'affichage sur l'interface mobile. Bouton de validation parfois non cliquable sur certains appareils.",
+        "category": "Qualité",
+        "type": "Technique",
+        "sector": "Innovation"
+      },
+      "classification_attendue": "Faible",
+      "score_max_attendu": 25
+    },
+    {
+      "id": "QUAL-001",
+      "nom": "Contamination récoltes",
+      "requete": {
+        "description": "Contamination des récoltes par des pesticides non autorisés. Risque de rappel produit et perte de certification bio.",
+        "category": "Qualité",
+        "type": "Technique",
+        "sector": "Agriculture"
+      },
+      "classification_attendue": "Eleve",
+      "score_min_attendu": 51
+    },
+    {
+      "id": "QUAL-002",
+      "nom": "Non-conformité étiquetage",
+      "requete": {
+        "description": "Non-conformité mineure sur l'étiquetage des produits. Absence de mention de l'origine sur certains lots.",
+        "category": "Qualité",
+        "type": "Technique",
+        "sector": "Agriculture"
+      },
+      "classification_attendue": "Faible",
+      "score_max_attendu": 25
+    },
+    {
+      "id": "QUAL-003",
+      "nom": "Défaut chaîne production",
+      "requete": {
+        "description": "Défaut qualité récurrent sur la chaîne de production. 5% des produits non conformes aux spécifications.",
+        "category": "Qualité",
+        "type": "Technique",
+        "sector": "Industriel"
+      },
+      "classification_attendue": "Moyen",
+      "score_min_attendu": 26
+    }
+  ],
+
+  "scenarios_feedback": [
+    {
+      "id": "FB-001",
+      "nom": "Feedback avec correction classification",
+      "requete": {
+        "description": "Risque de fuite de données personnelles suite à une mauvaise configuration du pare-feu",
+        "category": "Industriel",
+        "type": "Cyber & SSI",
+        "G": 5,
+        "F": 2,
+        "P": 4,
+        "user_classification": "Eleve",
+        "sector": "Technologie",
+        "mitigation": "Audit de sécurité et reconfiguration du pare-feu"
+      },
+      "score_attendu": 40,
+      "classification_calculee": "Moyen"
+    },
+    {
+      "id": "FB-002",
+      "nom": "Feedback sans classification utilisateur",
+      "requete": {
+        "description": "Retard dans la livraison du module de facturation",
+        "category": "Projet/Programme",
+        "type": "Technique",
+        "G": 3,
+        "F": 3,
+        "P": 2,
+        "sector": "PME"
+      },
+      "score_attendu": 18,
+      "classification_calculee": "Faible"
+    },
+    {
+      "id": "FB-003",
+      "nom": "Feedback risque maximal",
+      "requete": {
+        "description": "Cyberattaque massive avec destruction de toutes les données",
+        "category": "Industriel",
+        "type": "Cyber & SSI",
+        "G": 5,
+        "F": 5,
+        "P": 5,
+        "user_classification": "Eleve",
+        "sector": "Technologie",
+        "mitigation": "Plan de reprise d'activité immédiat"
+      },
+      "score_attendu": 125,
+      "classification_calculee": "Eleve"
+    },
+    {
+      "id": "FB-004",
+      "nom": "Feedback risque minimal",
+      "requete": {
+        "description": "Erreur de frappe dans un document interne",
+        "category": "Qualité",
+        "type": "Technique",
+        "G": 1,
+        "F": 1,
+        "P": 1,
+        "sector": "TPE"
+      },
+      "score_attendu": 1,
+      "classification_calculee": "Faible"
+    }
+  ],
+
+  "tests_validation_seuils_kinney": [
+    {
+      "description": "Limite haute Faible",
+      "G": 5, "F": 5, "P": 1,
+      "score": 25,
+      "classification": "Faible"
+    },
+    {
+      "description": "Limite basse Moyen",
+      "G": 3, "F": 3, "P": 3,
+      "score": 27,
+      "classification": "Moyen"
+    },
+    {
+      "description": "Limite haute Moyen",
+      "G": 5, "F": 5, "P": 2,
+      "score": 50,
+      "classification": "Moyen"
+    },
+    {
+      "description": "Limite basse Eleve (proche de 51)",
+      "G": 4, "F": 4, "P": 4,
+      "score": 64,
+      "classification": "Eleve"
+    },
+    {
+      "description": "Maximum",
+      "G": 5, "F": 5, "P": 5,
+      "score": 125,
+      "classification": "Eleve"
+    }
+  ],
+
+  "tests_validation_erreurs": [
+    {
+      "id": "ERR-001",
+      "nom": "Catégorie invalide",
+      "requete": {
+        "description": "Test",
+        "category": "CatégorieInvalide",
+        "type": "Technique",
+        "G": 3, "F": 3, "P": 3
+      },
+      "code_attendu": 400,
+      "message_contient": "Catégorie invalide"
+    },
+    {
+      "id": "ERR-002",
+      "nom": "Type invalide",
+      "requete": {
+        "description": "Test",
+        "category": "Industriel",
+        "type": "TypeInvalide",
+        "G": 3, "F": 3, "P": 3
+      },
+      "code_attendu": 400,
+      "message_contient": "Type invalide"
+    },
+    {
+      "id": "ERR-003",
+      "nom": "Classification invalide",
+      "requete": {
+        "description": "Test",
+        "category": "Industriel",
+        "type": "Technique",
+        "G": 3, "F": 3, "P": 3,
+        "user_classification": "Invalide"
+      },
+      "code_attendu": 400,
+      "message_contient": "Classification invalide"
+    },
+    {
+      "id": "ERR-004",
+      "nom": "G hors plage (trop élevé)",
+      "requete": {
+        "description": "Test",
+        "category": "Industriel",
+        "type": "Technique",
+        "G": 10, "F": 3, "P": 3
+      },
+      "code_attendu": 422
+    },
+    {
+      "id": "ERR-005",
+      "nom": "F hors plage (négatif)",
+      "requete": {
+        "description": "Test",
+        "category": "Industriel",
+        "type": "Technique",
+        "G": 3, "F": -1, "P": 3
+      },
+      "code_attendu": 422
+    },
+    {
+      "id": "ERR-006",
+      "nom": "P hors plage (zéro)",
+      "requete": {
+        "description": "Test",
+        "category": "Industriel",
+        "type": "Technique",
+        "G": 3, "F": 3, "P": 0
+      },
+      "code_attendu": 422
+    }
+  ],
+
+  "constantes_stb": {
+    "categories": ["Projet/Programme", "Industriel", "Qualité"],
+    "types": ["Commercial", "Financier", "Technique", "Cyber & SSI"],
+    "sectors": [
+      "Mobilité et Transport",
+      "Agriculture",
+      "Technologie",
+      "Innovation",
+      "Startup",
+      "TPE",
+      "PME",
+      "ETI"
+    ],
+    "classifications": ["Faible", "Moyen", "Eleve"],
+    "seuils_kinney": {
+      "Faible": {"min": 0, "max": 25},
+      "Moyen": {"min": 26, "max": 50},
+      "Eleve": {"min": 51, "max": 125}
+    }
+  }
+}

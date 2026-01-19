@@ -1,0 +1,581 @@
+{
+  "description": "Données de test MVP SafeQore - 4 Cas d'Usage du Cahier des Charges",
+
+  "cas_1_tpe_agricole": {
+    "profil": "Dirigeant/Associé d'une TPE",
+    "secteur": "Agriculture / Agro-alimentaire",
+    "projet": "Nouveau projet de transformation de produits bio",
+    "risques": [
+      {
+        "nom": "Contamination des produits",
+        "ia_analyze": {
+          "description": "Risque de contamination bactériologique des produits transformés (confitures, conserves) dû à un défaut de stérilisation ou de chaîne du froid. Impact sur la santé des consommateurs et rappel de produits.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "Agriculture"
+        },
+        "user_analyze": {
+          "description": "Risque de contamination bactériologique des produits transformés (confitures, conserves) dû à un défaut de stérilisation ou de chaîne du froid.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "Agriculture",
+          "G": 4,
+          "F": 2,
+          "P": 3,
+          "mitigation": "Mise en place d'un protocole HACCP strict et contrôles réguliers"
+        },
+        "compare": {
+          "description": "Risque de contamination bactériologique des produits transformés (confitures, conserves) dû à un défaut de stérilisation ou de chaîne du froid.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "Agriculture",
+          "user_G": 4,
+          "user_F": 2,
+          "user_P": 3
+        }
+      },
+      {
+        "nom": "Perte de certification bio",
+        "ia_analyze": {
+          "description": "Risque de perte de la certification Agriculture Biologique suite à une non-conformité lors d'un audit ou utilisation accidentelle de produits phytosanitaires non autorisés.",
+          "category": "Qualité",
+          "type": "Commercial",
+          "sector": "Agriculture"
+        },
+        "user_analyze": {
+          "description": "Risque de perte de la certification Agriculture Biologique suite à une non-conformité lors d'un audit.",
+          "category": "Qualité",
+          "type": "Commercial",
+          "sector": "Agriculture",
+          "G": 5,
+          "F": 1,
+          "P": 2,
+          "mitigation": "Traçabilité complète et formation du personnel aux exigences bio"
+        },
+        "compare": {
+          "description": "Risque de perte de la certification Agriculture Biologique suite à une non-conformité lors d'un audit.",
+          "category": "Qualité",
+          "type": "Commercial",
+          "sector": "Agriculture",
+          "user_G": 5,
+          "user_F": 1,
+          "user_P": 2
+        }
+      },
+      {
+        "nom": "Défaillance fournisseur",
+        "ia_analyze": {
+          "description": "Risque de rupture d'approvisionnement en matières premières bio locales suite à une mauvaise récolte, intempéries ou défaillance d'un fournisseur clé.",
+          "category": "Projet/Programme",
+          "type": "Commercial",
+          "sector": "Agriculture"
+        },
+        "user_analyze": {
+          "description": "Risque de rupture d'approvisionnement en matières premières bio locales suite à une mauvaise récolte ou défaillance fournisseur.",
+          "category": "Projet/Programme",
+          "type": "Commercial",
+          "sector": "Agriculture",
+          "G": 3,
+          "F": 2,
+          "P": 3,
+          "mitigation": "Diversifier les fournisseurs et prévoir des stocks tampons"
+        },
+        "compare": {
+          "description": "Risque de rupture d'approvisionnement en matières premières bio locales.",
+          "category": "Projet/Programme",
+          "type": "Commercial",
+          "sector": "Agriculture",
+          "user_G": 3,
+          "user_F": 2,
+          "user_P": 3
+        }
+      }
+    ]
+  },
+
+  "cas_2_pme_mobilite": {
+    "profil": "Chef de projet / Responsable qualité / Manager contrat",
+    "secteur": "PME/ETI Mobilité (automobile, ferroviaire, maritime, aviation)",
+    "projet": "Développement d'un calculateur pour moteurs hybride essence et électrique",
+    "risques": [
+      {
+        "nom": "Défaillance technique du calculateur",
+        "ia_analyze": {
+          "description": "Risque de bug logiciel critique dans le calculateur de gestion moteur pouvant entraîner une panne du véhicule ou un comportement dangereux du système de propulsion hybride essence/électrique.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "Mobilité et Transport"
+        },
+        "user_analyze": {
+          "description": "Risque de bug logiciel critique dans le calculateur de gestion moteur hybride pouvant entraîner une panne ou un comportement dangereux.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "Mobilité et Transport",
+          "G": 5,
+          "F": 2,
+          "P": 3,
+          "mitigation": "Tests unitaires exhaustifs, revue de code, simulation HIL"
+        },
+        "compare": {
+          "description": "Risque de bug logiciel critique dans le calculateur de gestion moteur hybride.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "Mobilité et Transport",
+          "user_G": 5,
+          "user_F": 2,
+          "user_P": 3
+        }
+      },
+      {
+        "nom": "Non-conformité normes automobiles",
+        "ia_analyze": {
+          "description": "Risque de non-conformité aux normes ISO 26262 (sécurité fonctionnelle automobile) ou aux réglementations d'homologation européennes ECE, bloquant la mise sur le marché du calculateur.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "Mobilité et Transport"
+        },
+        "user_analyze": {
+          "description": "Risque de non-conformité aux normes ISO 26262 et réglementations d'homologation européennes.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "Mobilité et Transport",
+          "G": 4,
+          "F": 2,
+          "P": 2,
+          "mitigation": "Intégrer la conformité dès la conception (ASIL), audits réguliers"
+        },
+        "compare": {
+          "description": "Risque de non-conformité aux normes ISO 26262 et réglementations d'homologation.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "Mobilité et Transport",
+          "user_G": 4,
+          "user_F": 2,
+          "user_P": 2
+        }
+      },
+      {
+        "nom": "Cyberattaque système embarqué",
+        "ia_analyze": {
+          "description": "Risque d'intrusion malveillante dans le système embarqué du calculateur via les interfaces de communication (CAN bus, Ethernet, OTA updates) permettant de prendre le contrôle du véhicule.",
+          "category": "Industriel",
+          "type": "Cyber & SSI",
+          "sector": "Mobilité et Transport"
+        },
+        "user_analyze": {
+          "description": "Risque de cyberattaque sur le système embarqué via CAN bus ou mises à jour OTA permettant une prise de contrôle à distance.",
+          "category": "Industriel",
+          "type": "Cyber & SSI",
+          "sector": "Mobilité et Transport",
+          "G": 5,
+          "F": 2,
+          "P": 4,
+          "mitigation": "Conformité UN R155, chiffrement, secure boot, tests de pénétration"
+        },
+        "compare": {
+          "description": "Risque de cyberattaque sur le système embarqué du calculateur.",
+          "category": "Industriel",
+          "type": "Cyber & SSI",
+          "sector": "Mobilité et Transport",
+          "user_G": 5,
+          "user_F": 2,
+          "user_P": 4
+        }
+      },
+      {
+        "nom": "Retard de développement",
+        "ia_analyze": {
+          "description": "Risque de dépassement des délais de développement dû à la complexité technique de l'intégration moteur thermique/électrique, impactant les engagements contractuels avec le constructeur automobile.",
+          "category": "Projet/Programme",
+          "type": "Commercial",
+          "sector": "Mobilité et Transport"
+        },
+        "user_analyze": {
+          "description": "Risque de retard de développement dû à la complexité d'intégration moteur thermique/électrique.",
+          "category": "Projet/Programme",
+          "type": "Commercial",
+          "sector": "Mobilité et Transport",
+          "G": 3,
+          "F": 3,
+          "P": 4,
+          "mitigation": "Méthodologie Agile, jalons intermédiaires, marge de sécurité planning"
+        },
+        "compare": {
+          "description": "Risque de retard de développement du calculateur hybride.",
+          "category": "Projet/Programme",
+          "type": "Commercial",
+          "sector": "Mobilité et Transport",
+          "user_G": 3,
+          "user_F": 3,
+          "user_P": 4
+        }
+      },
+      {
+        "nom": "Pénurie de composants électroniques",
+        "ia_analyze": {
+          "description": "Risque de rupture d'approvisionnement en semi-conducteurs et composants électroniques critiques pour la fabrication du calculateur, dans un contexte de tensions sur la supply chain mondiale.",
+          "category": "Projet/Programme",
+          "type": "Financier",
+          "sector": "Mobilité et Transport"
+        },
+        "user_analyze": {
+          "description": "Risque de pénurie de semi-conducteurs et composants électroniques critiques pour le calculateur.",
+          "category": "Projet/Programme",
+          "type": "Financier",
+          "sector": "Mobilité et Transport",
+          "G": 4,
+          "F": 3,
+          "P": 3,
+          "mitigation": "Stock de sécurité, second sourcing, composants alternatifs qualifiés"
+        },
+        "compare": {
+          "description": "Risque de pénurie de composants électroniques pour le calculateur.",
+          "category": "Projet/Programme",
+          "type": "Financier",
+          "sector": "Mobilité et Transport",
+          "user_G": 4,
+          "user_F": 3,
+          "user_P": 3
+        }
+      }
+    ]
+  },
+
+  "cas_3_startup_drone": {
+    "profil": "Co-fondateur de startup",
+    "secteur": "Startup / Innovation",
+    "projet": "Conception d'un drone de surveillance et sécurité",
+    "risques": [
+      {
+        "nom": "Non-conformité réglementation aérienne",
+        "ia_analyze": {
+          "description": "Risque de non-conformité aux réglementations DGAC et EASA pour les drones (catégorie spécifique, zones de vol, certification C2/C3). Impossibilité d'obtenir les autorisations de vol commercial.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "Startup"
+        },
+        "user_analyze": {
+          "description": "Risque de non-conformité aux réglementations DGAC/EASA pour les drones de surveillance.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "Startup",
+          "G": 5,
+          "F": 2,
+          "P": 3,
+          "mitigation": "Intégrer un expert réglementation dès le départ, veille juridique"
+        },
+        "compare": {
+          "description": "Risque de non-conformité aux réglementations drones DGAC/EASA.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "Startup",
+          "user_G": 5,
+          "user_F": 2,
+          "user_P": 3
+        }
+      },
+      {
+        "nom": "Vol de propriété intellectuelle",
+        "ia_analyze": {
+          "description": "Risque de copie ou vol des algorithmes de navigation autonome et de traitement d'image par des concurrents ou via une faille de sécurité informatique. Perte d'avantage compétitif.",
+          "category": "Industriel",
+          "type": "Cyber & SSI",
+          "sector": "Startup"
+        },
+        "user_analyze": {
+          "description": "Risque de vol des algorithmes de navigation autonome et traitement d'image par des concurrents.",
+          "category": "Industriel",
+          "type": "Cyber & SSI",
+          "sector": "Startup",
+          "G": 4,
+          "F": 2,
+          "P": 3,
+          "mitigation": "Brevets, NDA avec partenaires, sécurisation du code source"
+        },
+        "compare": {
+          "description": "Risque de vol de propriété intellectuelle (algorithmes drone).",
+          "category": "Industriel",
+          "type": "Cyber & SSI",
+          "sector": "Startup",
+          "user_G": 4,
+          "user_F": 2,
+          "user_P": 3
+        }
+      },
+      {
+        "nom": "Échec de la levée de fonds",
+        "ia_analyze": {
+          "description": "Risque d'échec de la levée de fonds Seed ou Série A nécessaire au développement du prototype et à l'industrialisation du drone. Trésorerie actuelle limitée à 8 mois d'exploitation.",
+          "category": "Projet/Programme",
+          "type": "Financier",
+          "sector": "Startup"
+        },
+        "user_analyze": {
+          "description": "Risque d'échec de la levée de fonds nécessaire au développement. Trésorerie limitée à 8 mois.",
+          "category": "Projet/Programme",
+          "type": "Financier",
+          "sector": "Startup",
+          "G": 5,
+          "F": 2,
+          "P": 3,
+          "mitigation": "Préparer un pitch solide, diversifier les investisseurs, plan B subventions"
+        },
+        "compare": {
+          "description": "Risque d'échec de la levée de fonds Seed/Série A.",
+          "category": "Projet/Programme",
+          "type": "Financier",
+          "sector": "Startup",
+          "user_G": 5,
+          "user_F": 2,
+          "user_P": 3
+        }
+      },
+      {
+        "nom": "Accident lors des tests",
+        "ia_analyze": {
+          "description": "Risque d'accident du drone lors des phases de test en vol (crash, collision avec obstacle, blessure de personne) entraînant responsabilité civile, dommages matériels et impact réputationnel.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "Startup"
+        },
+        "user_analyze": {
+          "description": "Risque d'accident du drone lors des tests (crash, collision, blessure de personne).",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "Startup",
+          "G": 5,
+          "F": 3,
+          "P": 2,
+          "mitigation": "Assurance RC drone, zones de test sécurisées, procédures de sécurité"
+        },
+        "compare": {
+          "description": "Risque d'accident du drone lors des phases de test.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "Startup",
+          "user_G": 5,
+          "user_F": 3,
+          "user_P": 2
+        }
+      },
+      {
+        "nom": "Violation de vie privée",
+        "ia_analyze": {
+          "description": "Risque juridique lié à la captation d'images de personnes sans leur consentement lors des missions de surveillance. Non-conformité RGPD, sanctions CNIL et poursuites judiciaires.",
+          "category": "Qualité",
+          "type": "Cyber & SSI",
+          "sector": "Startup"
+        },
+        "user_analyze": {
+          "description": "Risque juridique de captation d'images sans consentement. Non-conformité RGPD/CNIL.",
+          "category": "Qualité",
+          "type": "Cyber & SSI",
+          "sector": "Startup",
+          "G": 4,
+          "F": 3,
+          "P": 3,
+          "mitigation": "Privacy by design, floutage automatique visages, DPO dédié"
+        },
+        "compare": {
+          "description": "Risque de violation de vie privée lors des missions de surveillance.",
+          "category": "Qualité",
+          "type": "Cyber & SSI",
+          "sector": "Startup",
+          "user_G": 4,
+          "user_F": 3,
+          "user_P": 3
+        }
+      }
+    ]
+  },
+
+  "cas_4_commercant_artisan": {
+    "profil": "Commerçant / Artisan (boulanger-pâtissier)",
+    "secteur": "TPE Commerce/Artisanat",
+    "projet": "Création d'une boulangerie artisanale",
+    "risques": [
+      {
+        "nom": "Problème de trésorerie",
+        "ia_analyze": {
+          "description": "Risque de difficultés de trésorerie dans les premiers mois d'activité dû aux investissements initiaux importants (four professionnel, équipements, aménagement du local) et au délai pour atteindre le seuil de rentabilité.",
+          "category": "Projet/Programme",
+          "type": "Financier",
+          "sector": "TPE"
+        },
+        "user_analyze": {
+          "description": "Risque de difficultés de trésorerie les premiers mois dû aux investissements initiaux.",
+          "category": "Projet/Programme",
+          "type": "Financier",
+          "sector": "TPE",
+          "G": 4,
+          "F": 3,
+          "P": 3,
+          "mitigation": "Prévoir 6 mois de trésorerie d'avance, négocier délais fournisseurs"
+        },
+        "compare": {
+          "description": "Risque de difficultés de trésorerie à l'ouverture de la boulangerie.",
+          "category": "Projet/Programme",
+          "type": "Financier",
+          "sector": "TPE",
+          "user_G": 4,
+          "user_F": 3,
+          "user_P": 3
+        }
+      },
+      {
+        "nom": "Non-conformité sanitaire",
+        "ia_analyze": {
+          "description": "Risque de fermeture administrative suite à un contrôle sanitaire défavorable de la DDPP. Non-respect des normes HACCP, problème de traçabilité, de conservation ou d'hygiène des locaux.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "TPE"
+        },
+        "user_analyze": {
+          "description": "Risque de fermeture suite à contrôle sanitaire défavorable. Non-respect HACCP.",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "TPE",
+          "G": 5,
+          "F": 2,
+          "P": 2,
+          "mitigation": "Formation HACCP, plan de maîtrise sanitaire, audit hygiène régulier"
+        },
+        "compare": {
+          "description": "Risque de non-conformité sanitaire (normes HACCP).",
+          "category": "Qualité",
+          "type": "Technique",
+          "sector": "TPE",
+          "user_G": 5,
+          "user_F": 2,
+          "user_P": 2
+        }
+      },
+      {
+        "nom": "Panne du four principal",
+        "ia_analyze": {
+          "description": "Risque de panne du four professionnel principal entraînant une interruption totale de production et perte de chiffre d'affaires. Délai de réparation pouvant atteindre plusieurs jours voire semaines.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "TPE"
+        },
+        "user_analyze": {
+          "description": "Risque de panne du four principal entraînant interruption de production.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "TPE",
+          "G": 4,
+          "F": 2,
+          "P": 3,
+          "mitigation": "Contrat maintenance préventive, contact SAV 24h/24, four de secours"
+        },
+        "compare": {
+          "description": "Risque de panne du four principal de la boulangerie.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "TPE",
+          "user_G": 4,
+          "user_F": 2,
+          "user_P": 3
+        }
+      },
+      {
+        "nom": "Concurrence grande distribution",
+        "ia_analyze": {
+          "description": "Risque de perte de clientèle face à la concurrence des terminaux de cuisson des supermarchés et hard-discounters proposant du pain et viennoiseries à très bas prix.",
+          "category": "Projet/Programme",
+          "type": "Commercial",
+          "sector": "TPE"
+        },
+        "user_analyze": {
+          "description": "Risque de perte de clientèle face aux supermarchés proposant du pain à bas prix.",
+          "category": "Projet/Programme",
+          "type": "Commercial",
+          "sector": "TPE",
+          "G": 3,
+          "F": 4,
+          "P": 3,
+          "mitigation": "Miser sur qualité artisanale, produits différenciants, relation client"
+        },
+        "compare": {
+          "description": "Risque de concurrence des grandes surfaces sur le pain.",
+          "category": "Projet/Programme",
+          "type": "Commercial",
+          "sector": "TPE",
+          "user_G": 3,
+          "user_F": 4,
+          "user_P": 3
+        }
+      },
+      {
+        "nom": "Accident du travail",
+        "ia_analyze": {
+          "description": "Risque d'accident du travail pour le boulanger ou ses employés : brûlure au four, coupure lors de la manipulation des outils, chute dans le fournil. Arrêt de travail impactant la production.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "TPE"
+        },
+        "user_analyze": {
+          "description": "Risque d'accident du travail (brûlure, coupure, chute) pour le personnel.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "TPE",
+          "G": 3,
+          "F": 3,
+          "P": 2,
+          "mitigation": "EPI obligatoires, formation sécurité, affichage consignes"
+        },
+        "compare": {
+          "description": "Risque d'accident du travail en boulangerie.",
+          "category": "Industriel",
+          "type": "Technique",
+          "sector": "TPE",
+          "user_G": 3,
+          "user_F": 3,
+          "user_P": 2
+        }
+      },
+      {
+        "nom": "Vol ou cambriolage",
+        "ia_analyze": {
+          "description": "Risque de vol de la caisse en journée ou cambriolage du commerce pendant la nuit. Perte financière directe et dégâts matériels (vitrine, porte, équipements).",
+          "category": "Industriel",
+          "type": "Financier",
+          "sector": "TPE"
+        },
+        "user_analyze": {
+          "description": "Risque de vol de caisse ou cambriolage du commerce.",
+          "category": "Industriel",
+          "type": "Financier",
+          "sector": "TPE",
+          "G": 3,
+          "F": 2,
+          "P": 3,
+          "mitigation": "Alarme, vidéosurveillance, coffre-fort, dépôts bancaires fréquents"
+        },
+        "compare": {
+          "description": "Risque de vol ou cambriolage de la boulangerie.",
+          "category": "Industriel",
+          "type": "Financier",
+          "sector": "TPE",
+          "user_G": 3,
+          "user_F": 2,
+          "user_P": 3
+        }
+      }
+    ]
+  },
+
+  "rappel_endpoints": {
+    "ia_analyze": "POST /ia/analyze",
+    "user_analyze": "POST /user/analyze",
+    "compare": "POST /compare",
+    "constants": "GET /constants",
+    "user_analyses": "GET /user/analyses"
+  },
+
+  "rappel_classification_kinney": {
+    "Faible": "Score 1-25 → Mesures à long terme",
+    "Moyen": "Score 26-50 → Mesures à court/moyen terme",
+    "Eleve": "Score 51-125 → Mesures immédiates"
+  }
+}
