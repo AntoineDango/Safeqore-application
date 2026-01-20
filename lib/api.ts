@@ -53,6 +53,29 @@ export const compareAnalyses = (payload: CompareRequest) =>
     body: JSON.stringify(payload),
   });
 
+// Export comparison as Word document (.docx)
+export const exportCompareReport = async (payload: CompareRequest) => {
+  const authHeader = await getAuthHeader();
+  const res = await fetch(`${API_BASE_URL}/compare/report`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader,
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`${res.status} ${res.statusText}: ${text}`);
+  }
+  const cd = res.headers.get("Content-Disposition") || "";
+  let filename = "compare_report.docx";
+  const m = cd.match(/filename=([^;]+)/);
+  if (m) filename = m[1].replace(/(^\"|\"$)/g, "");
+  const data = await res.blob();
+  return { data, filename };
+};
+
 export const listTraces = (limit = 50, offset = 0) =>
   http<TraceListResponse>(`/questionnaire/analyses?limit=${limit}&offset=${offset}`);
 

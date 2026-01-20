@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, ScrollView, Pressable, useWindowDimensions } from "react-native";
+import { View, Text, ActivityIndicator, ScrollView, Pressable, useWindowDimensions, Platform } from "react-native";
 import { useAnalysis } from "../context/AnalysisContext";
-import { compareAnalyses } from "../lib/api";
+import { compareAnalyses, exportCompareReport } from "../lib/api";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthGuard } from "../lib/guard";
 
@@ -14,6 +14,7 @@ export default function CompareScreen() {
   const isWide = width >= 720;
   const [showExplain, setShowExplain] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -55,6 +56,44 @@ export default function CompareScreen() {
     P: human.P === ia.P,
     score: human.score === ia.score,
     classification: String(human.classification) === String(ia.classification),
+  };
+
+  const onExport = async () => {
+    if (!state.userResult || !state.description || !state.category || !state.type) {
+      setError("Données insuffisantes pour l'export");
+      return;
+    }
+    setExporting(true);
+    try {
+      const r = state.userResult;
+      const payload = {
+        description: state.description,
+        category: state.category,
+        type: state.type,
+        sector: state.sector,
+        user_G: r.G,
+        user_F: r.F,
+        user_P: r.P,
+        user_classification: r.classification,
+      } as any;
+      const { data, filename } = await exportCompareReport(payload);
+      if (Platform.OS === "web" && typeof window !== "undefined") {
+        const url = URL.createObjectURL(data as any);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename || "compare_report.docx";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } else {
+        setError("Export Word disponible sur la version web pour l'instant.");
+      }
+    } catch (e: any) {
+      setError(e?.message || "Échec de l'export Word");
+    } finally {
+      setExporting(false);
+    }
   };
 
   const normClass = (v: string): "faible" | "modéré" | "élevé" => {
@@ -145,6 +184,9 @@ export default function CompareScreen() {
         <View style={{ marginBottom:20 }}>
           <Text style={{ fontSize:26, fontWeight:"800", color:"#111827", marginBottom:4 }}>Comparaison avec l'IA</Text>
           <Text style={{ fontSize:14, color:"#6b7280" }}>Analyse de cohérence entre votre évaluation et l'assistance IA</Text>
+          <Pressable onPress={onExport} disabled={exporting} style={{ marginTop:12, alignSelf:"flex-start", paddingVertical:12, paddingHorizontal:14, borderRadius:8, backgroundColor: exporting ? "#9ca3af" : "#111827" }}>
+            <Text style={{ color:"#fff", fontWeight:"700" }}>{exporting ? "Export..." : "Exporter le rapport (.docx)"}</Text>
+          </Pressable>
         </View>
 
         {/* Graphique de comparaison G/F/P */}
