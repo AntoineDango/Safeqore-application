@@ -5045,5 +5045,1919 @@
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
     "normalized_score_100": 10
+  },
+  {
+    "id": "QA_20260119060802_59",
+    "timestamp": "2026-01-19T06:08:02.148040",
+    "questionnaire_version": "1.0.0",
+    "description": "Réduire le nombre de morts sur les voies",
+    "category": "Industriel",
+    "type": "Technique",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O2"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O5"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O4"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O1"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O2"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 4,
+    "P": 2,
+    "score": 16,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 13
+  },
+  {
+    "id": "QA_20260119230310_60",
+    "timestamp": "2026-01-19T23:03:10.659236",
+    "questionnaire_version": "1.0.0",
+    "description": "faaj",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O5"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O3"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O2"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O5"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O2"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 3,
+    "F": 2,
+    "P": 4,
+    "score": 24,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 19
+  },
+  {
+    "id": "QA_20260119230349_61",
+    "timestamp": "2026-01-19T23:03:49.702440",
+    "questionnaire_version": "1.0.0",
+    "description": "faaj",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O5"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O3"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O2"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O5"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O2"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 3,
+    "F": 2,
+    "P": 4,
+    "score": 24,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 19
+  },
+  {
+    "id": "QA_20260119230357_62",
+    "timestamp": "2026-01-19T23:03:57.528202",
+    "questionnaire_version": "1.0.0",
+    "description": "faaj",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O5"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O3"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O2"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O5"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O2"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 3,
+    "F": 2,
+    "P": 4,
+    "score": 24,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 19
+  },
+  {
+    "id": "QA_20260119230404_63",
+    "timestamp": "2026-01-19T23:04:04.604746",
+    "questionnaire_version": "1.0.0",
+    "description": "faaj",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O5"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O3"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O2"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O5"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O2"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 3,
+    "F": 2,
+    "P": 4,
+    "score": 24,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 19
+  },
+  {
+    "id": "QA_20260119231824_64",
+    "timestamp": "2026-01-19T23:18:24.561470",
+    "questionnaire_version": "1.0.0",
+    "description": "dryj;'[[jbu",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O4"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O1"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O4"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O5"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O4"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 2,
+    "P": 4,
+    "score": 16,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 13
+  },
+  {
+    "id": "QA_20260120001715_65",
+    "timestamp": "2026-01-20T00:17:15.464640",
+    "questionnaire_version": "1.0.0",
+    "description": "reduire le nombre de morts",
+    "category": "Projet/Programme",
+    "type": "Financier",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O4"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O2"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O4"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O5"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O2"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 3,
+    "P": 4,
+    "score": 24,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 19
+  },
+  {
+    "id": "QA_20260120001933_66",
+    "timestamp": "2026-01-20T00:19:33.500831",
+    "questionnaire_version": "1.0.0",
+    "description": "sysusoap",
+    "category": "Projet/Programme",
+    "type": "Financier",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O2"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O1"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O5"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O4"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O2"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O5"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O1",
+          "contribution": 1,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 4,
+    "P": 4,
+    "score": 32,
+    "classification": "Modéré",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 26
+  },
+  {
+    "id": "QA_20260120003538_67",
+    "timestamp": "2026-01-20T00:35:38.215858",
+    "questionnaire_version": "1.0.0",
+    "description": "huaa;aa'a''cwe",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O5"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O2"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O3"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O1"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O4"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O3",
+          "contribution": 3,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 3,
+    "F": 2,
+    "P": 2,
+    "score": 12,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 10
+  },
+  {
+    "id": "QA_20260120004457_68",
+    "timestamp": "2026-01-20T00:44:57.495558",
+    "questionnaire_version": "1.0.0",
+    "description": "huaa;aa'a''cwe",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O3"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O5"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O2"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O3"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O4"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O3",
+          "contribution": 3,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 4,
+    "P": 4,
+    "score": 32,
+    "classification": "Modéré",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 26
+  },
+  {
+    "id": "QA_20260120004923_69",
+    "timestamp": "2026-01-20T00:49:23.900917",
+    "questionnaire_version": "1.0.0",
+    "description": "assgarherjtr",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O5"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O3"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O1"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O2"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O4"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O1",
+          "contribution": 1,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 3,
+    "F": 2,
+    "P": 3,
+    "score": 18,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 14
+  },
+  {
+    "id": "QA_20260120005637_70",
+    "timestamp": "2026-01-20T00:56:37.756403",
+    "questionnaire_version": "1.0.0",
+    "description": "assgarherjtr",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O3"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O5"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O1"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O2"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O2"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O3",
+          "contribution": 3,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O1",
+          "contribution": 1,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 3,
+    "P": 2,
+    "score": 12,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 10
+  },
+  {
+    "id": "QA_20260120010221_71",
+    "timestamp": "2026-01-20T01:02:21.615321",
+    "questionnaire_version": "1.0.0",
+    "description": "sysusoap",
+    "category": "Projet/Programme",
+    "type": "Financier",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O5"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O4"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O4"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O4"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O4"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O4",
+          "contribution": 4,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O4",
+          "contribution": 4,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 3,
+    "F": 4,
+    "P": 4,
+    "score": 48,
+    "classification": "Modéré",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 38
+  },
+  {
+    "id": "QA_20260120010548_72",
+    "timestamp": "2026-01-20T01:05:48.896756",
+    "questionnaire_version": "1.0.0",
+    "description": "vvbbgttred",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O2"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O4"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O5"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O4"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O5"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O4",
+          "contribution": 4,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O4",
+          "contribution": 4,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 4,
+    "P": 4,
+    "score": 32,
+    "classification": "Modéré",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 26
+  },
+  {
+    "id": "QA_20260120011139_73",
+    "timestamp": "2026-01-20T01:11:39.234508",
+    "questionnaire_version": "1.0.0",
+    "description": "sycc;adIDIFWQIF",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O3"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O3"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O4"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O5"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O5"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O3",
+          "contribution": 3,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 4,
+    "P": 5,
+    "score": 40,
+    "classification": "Modéré",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 32
+  },
+  {
+    "id": "QA_20260120012000_74",
+    "timestamp": "2026-01-20T01:20:00.266393",
+    "questionnaire_version": "1.0.0",
+    "description": "vvvvvvvvvvvvvvvvvvvvvvv",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O2"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O3"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O5"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O2"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O2"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 4,
+    "P": 2,
+    "score": 16,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 13
+  },
+  {
+    "id": "QA_20260120012910_75",
+    "timestamp": "2026-01-20T01:29:10.188380",
+    "questionnaire_version": "1.0.0",
+    "description": "vvvvvvvvvvvvvvvvvvvv",
+    "category": "Projet/Programme",
+    "type": "Financier",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O3"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O2"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O1"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O2"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O2"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O3",
+          "contribution": 3,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O1",
+          "contribution": 1,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 2,
+    "P": 2,
+    "score": 8,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 6
+  },
+  {
+    "id": "QA_20260120022451_76",
+    "timestamp": "2026-01-20T02:24:51.801785",
+    "questionnaire_version": "1.0.0",
+    "description": "Tyuchk",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O5"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O3"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O2"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O1"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O5"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 3,
+    "F": 2,
+    "P": 3,
+    "score": 18,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 14
+  },
+  {
+    "id": "QA_20260120023208_77",
+    "timestamp": "2026-01-20T02:32:08.586773",
+    "questionnaire_version": "1.0.0",
+    "description": "Tyuchk",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Mobilité et Transport",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O3"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O5"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O2"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O1"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O3"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O5"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O1",
+          "contribution": 1,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 4,
+    "F": 2,
+    "P": 4,
+    "score": 32,
+    "classification": "Modéré",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 26
+  },
+  {
+    "id": "QA_20260120024052_78",
+    "timestamp": "2026-01-20T02:40:52.894131",
+    "questionnaire_version": "1.0.0",
+    "description": "Franvcff",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Startup",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O1"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O2"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O4"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O4"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O1"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O4"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O4",
+          "contribution": 4,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 2,
+    "F": 4,
+    "P": 2,
+    "score": 16,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 13
+  },
+  {
+    "id": "QA_20260120024156_79",
+    "timestamp": "2026-01-20T02:41:56.610188",
+    "questionnaire_version": "1.0.0",
+    "description": "Franvcff",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Startup",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O2"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O5"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O2"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O1"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O3"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O5"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O1",
+          "contribution": 1,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O3",
+          "contribution": 3,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O5",
+          "contribution": 5,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 4,
+    "F": 2,
+    "P": 4,
+    "score": 32,
+    "classification": "Modéré",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 26
+  },
+  {
+    "id": "QA_20260120024252_80",
+    "timestamp": "2026-01-20T02:42:52.796574",
+    "questionnaire_version": "1.0.0",
+    "description": "Franvcff",
+    "category": "Projet/Programme",
+    "type": "Commercial",
+    "sector": "Startup",
+    "answers": [
+      {
+        "question_id": "G1",
+        "option_id": "G1_O5"
+      },
+      {
+        "question_id": "G2",
+        "option_id": "G2_O2"
+      },
+      {
+        "question_id": "F1",
+        "option_id": "F1_O1"
+      },
+      {
+        "question_id": "F2",
+        "option_id": "F2_O4"
+      },
+      {
+        "question_id": "P1",
+        "option_id": "P1_O2"
+      },
+      {
+        "question_id": "P2",
+        "option_id": "P2_O1"
+      }
+    ],
+    "details": {
+      "G": [
+        {
+          "question_id": "G1",
+          "option_id": "G1_O5",
+          "contribution": 5,
+          "poids": 1
+        },
+        {
+          "question_id": "G2",
+          "option_id": "G2_O2",
+          "contribution": 2,
+          "poids": 1
+        }
+      ],
+      "F": [
+        {
+          "question_id": "F1",
+          "option_id": "F1_O1",
+          "contribution": 1,
+          "poids": 1
+        },
+        {
+          "question_id": "F2",
+          "option_id": "F2_O4",
+          "contribution": 4,
+          "poids": 1
+        }
+      ],
+      "P": [
+        {
+          "question_id": "P1",
+          "option_id": "P1_O2",
+          "contribution": 2,
+          "poids": 1
+        },
+        {
+          "question_id": "P2",
+          "option_id": "P2_O1",
+          "contribution": 1,
+          "poids": 1
+        }
+      ]
+    },
+    "method": "questionnaire",
+    "G": 4,
+    "F": 2,
+    "P": 2,
+    "score": 16,
+    "classification": "Faible",
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "normalized_score_100": 13
   }
 ]

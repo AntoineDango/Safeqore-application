@@ -4,6 +4,9 @@ Permet de confronter l'évaluation de l'utilisateur avec celle de l'IA.
 """
 
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import StreamingResponse
+from io import BytesIO
+from docx import Document
 from pydantic import BaseModel, Field
 from typing import Optional, List
 from app.services.llm_service import call_llm_for_risk
@@ -246,3 +249,94 @@ async def compare_human_vs_ia(request: CompareRequest):
         ),
         comparison=comparison
     )
+
+
+@router.post("/compare/report")
+async def export_compare_report(request: CompareRequest):
+    """
+    Génère un document Word (.docx) contenant la comparaison Humain vs IA
+    avec tableaux de valeurs et représentations simples des graphes (barres textuelles).
+    """
+    # Reutiliser la logique de comparaison
+    # Validation
+    if request.category not in RISK_CATEGORIES:
+        raise HTTPException(status_code=400, detail=f"Catégorie invalide. Valeurs acceptées: {RISK_CATEGORIES}")
+    if request.type not in RISK_TYPES:
+        raise HTTPException(status_code=400, detail=f"Type invalide. Valeurs acceptées: {RISK_TYPES}")
+
+    human_score = kinney_score(request.user_G, request.user_F, request.user_P)
+    human_classification = request.user_classification or classify_from_score(human_score)
+
+    llm_out = call_llm_for_risk(request.description, request.category, request.type, request.sector)
+    if llm_out is None:
+        raise HTTPException(status_code=503, detail="Service IA indisponible. Réessayez plus tard.")
+    try:
+        ia_G = int(llm_out.get("G"))
+        ia_F = int(llm_out.get("F"))
+        ia_P = int(llm_out.get("P"))
+        ia_causes = llm_out.get("causes", [])
+        ia_recommendations = llm_out.get("recommendations", [])
+        ia_justification = llm_out.get("justification", "")
+    except Exception:
+        raise HTTPException(status_code=502, detail="Réponse IA malformée")
+
+    ia_score = kinney_score(ia_G, ia_F, ia_P)
+    ia_classification = classify_from_score(ia_score)
+
+    # Document
+    doc = Document()
+    doc.add_heading("Comparaison Humain vs IA", level=0)
+    doc.add_paragraph(f"Description: {request.description}")
+    doc.add_paragraph(f"Catégorie: {request.category}  |  Type: {request.type}  |  Secteur: {request.sector or ''}")
+
+    doc.add_heading("Analyse Utilisateur", level=1)
+    doc.add_paragraph(f"G: {request.user_G}  F: {request.user_F}  P: {request.user_P}")
+    doc.add_paragraph(f"Score: {human_score} / 125  |  Classification: {human_classification}")
+
+    doc.add_heading("Analyse IA", level=1)
+    doc.add_paragraph(f"G: {ia_G}  F: {ia_F}  P: {ia_P}")
+    doc.add_paragraph(f"Score: {ia_score} / 125  |  Classification: {ia_classification}")
+    if ia_justification:
+        doc.add_paragraph(f"Justification IA: {ia_justification}")
+    if ia_causes:
+        doc.add_paragraph("Causes: " + "; ".join(map(str, ia_causes)))
+    if ia_recommendations:
+        doc.add_paragraph("Recommandations: " + "; ".join(map(str, ia_recommendations)))
+
+    # Graphiques simplifiés (barres textuelles)
+    doc.add_heading("Graphiques comparatifs (G/F/P)", level=1)
+    def bar(val: int, max_val: int = 5, length: int = 20) -> str:
+        pct = max(0, min(max_val, val)) / float(max_val)
+        filled = int(round(pct * length))
+        return "█" * filled + "░" * (length - filled)
+
+    table = doc.add_table(rows=4, cols=3)
+    table.style = "Table Grid"
+    table.cell(0,0).text = "Facteur"
+    table.cell(0,1).text = "Vous"
+    table.cell(0,2).text = "IA"
+
+    # G
+    table.cell(1,0).text = "G"
+    table.cell(1,1).text = f"{request.user_G}  |  {bar(request.user_G)}"
+    table.cell(1,2).text = f"{ia_G}  |  {bar(ia_G)}"
+    # F
+    table.cell(2,0).text = "F"
+    table.cell(2,1).text = f"{request.user_F}  |  {bar(request.user_F)}"
+    table.cell(2,2).text = f"{ia_F}  |  {bar(ia_F)}"
+    # P
+    table.cell(3,0).text = "P"
+    table.cell(3,1).text = f"{request.user_P}  |  {bar(request.user_P)}"
+    table.cell(3,2).text = f"{ia_P}  |  {bar(ia_P)}"
+
+    # Écarts
+    doc.add_heading("Comparaison & Écarts", level=1)
+    doc.add_paragraph(f"Écart score: {abs(human_score - ia_score)}")
+    doc.add_paragraph("Les graphiques ci-dessus sont indicatifs (barres textuelles).")
+
+    # Stream
+    bio = BytesIO()
+    doc.save(bio)
+    bio.seek(0)
+    headers = {"Content-Disposition": "attachment; filename=compare_report.docx"}
+    return StreamingResponse(bio, media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document", headers=headers)
