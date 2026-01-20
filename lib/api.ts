@@ -15,6 +15,12 @@ import type {
 
 async function http<T>(path: string, init?: RequestInit): Promise<T> {
   const authHeader = await getAuthHeader();
+  const needsAuth = path.startsWith("/profile") || path.startsWith("/user/");
+  if (needsAuth && !authHeader?.Authorization) {
+    // Aide au debug: on signale l'absence d'Authorization pour une route protégée
+    // eslint-disable-next-line no-console
+    console.warn(`[API] Missing Authorization header for protected path: ${path}`);
+  }
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...init,
     headers: {

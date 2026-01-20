@@ -89,14 +89,6 @@ export default function StartScreen() {
       >
         <Text style={{ color: "white", fontWeight: "600" }}>Commencer l'analyse</Text>
       </Pressable>
-
-    
-
-      {Platform.OS === "web" && (
-        <Text style={{ marginTop: 12, color: "#6b7280" }}>
-          Base API: {process.env.EXPO_PUBLIC_API_BASE_URL || "http://localhost:4000"}
-        </Text>
-      )}
     </SafeAreaView>
   );
 }

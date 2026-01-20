@@ -4,10 +4,12 @@ import { useAnalysis } from "../context/AnalysisContext";
 import { getConstants } from "../lib/api";
 import type { Category, RiskType } from "../lib/types";
 import { router } from "expo-router";
+import { useAuthGuard } from "../lib/guard";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RiskScreen() {
   const { state, setRiskInfo } = useAnalysis();
+  useAuthGuard();
   const [categories, setCategories] = useState<Category[]>([]);
   const [types, setTypes] = useState<RiskType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -91,7 +93,7 @@ export default function RiskScreen() {
         <Text style={{ color: "white", fontWeight: "600" }}>Continuer</Text>
       </Pressable>
 
-      <Text style={{ marginTop: 12, color: "#6b7280" }}>Des exemples de risques courants seront affichés par secteur lors du questionnaire.</Text>
+     
     </SafeAreaView>
   );
 }

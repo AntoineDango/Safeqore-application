@@ -2,6 +2,7 @@
 // This works even if Firebase SDK is not installed (fails gracefully).
 
 let customTokenProvider: (() => Promise<string | null>) | null = null;
+import { initFirebaseApp, getFirebaseAuth } from "./firebase";
 
 /**
  * Optionally register a custom token provider (e.g., your login flow can set this).
@@ -26,14 +27,24 @@ async function tryGetFirebaseToken(): Promise<string | null> {
 
   // Fallback to Web SDK if used in Expo Web
   try {
-    // @ts-ignore - optional dependency
-    const firebaseAuth = await import('firebase/auth');
-    // @ts-ignore - optional dependency
-    const firebaseApp = await import('firebase/app');
-    // If app is initialized elsewhere, use default
-    // @ts-ignore
-    const auth = firebaseAuth.getAuth();
-    const current = auth.currentUser;
+    // Ensure the Firebase app/auth are initialized via our shared initializer
+    await initFirebaseApp();
+    const auth = await getFirebaseAuth();
+    const firebaseAuth: any = await import('firebase/auth');
+    let current = auth.currentUser;
+    // currentUser peut être null au démarrage; attendre un court instant l'état d'auth
+    if (!current) {
+      current = await new Promise<any>((resolve) => {
+        const unsub = firebaseAuth.onAuthStateChanged(auth, (u: any) => {
+          try { unsub(); } catch {}
+          resolve(u);
+        });
+        setTimeout(() => {
+          try { unsub(); } catch {}
+          resolve(null);
+        }, 2000);
+      });
+    }
     if (current) {
       return await firebaseAuth.getIdToken(current);
     }

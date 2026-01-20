@@ -4,9 +4,11 @@ import { useAnalysis } from "../context/AnalysisContext";
 import { getQuestions } from "../lib/api";
 import type { Question } from "../lib/types";
 import { router } from "expo-router";
+import { useAuthGuard } from "../lib/guard";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function QuestionnaireScreen() {
+  useAuthGuard();
   const { state, addAnswer } = useAnalysis();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

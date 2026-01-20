@@ -30,5 +30,5 @@ export default function Index() {
     );
   }
 
-  return <Redirect href={authed ? "/start" : "/login"} />;
+  return <Redirect href={authed ? "/dashboard" : "/login"} />;
 }

@@ -16,7 +16,13 @@ export default function ProfileScreen() {
         const res = await getProfile();
         setProfile(res.profile);
       } catch (e: any) {
-        setError(e?.message || "Impossible de charger le profil (êtes-vous connecté ?)");
+        const msg = String(e?.message || "");
+        // Si le backend répond 401, rediriger vers /login directement
+        if (msg.startsWith("401 ") || msg.includes("401 Unauthorized")) {
+          router.replace("/login" as any);
+          return;
+        }
+        setError(msg || "Impossible de charger le profil (êtes-vous connecté ?)");
       } finally {
         setLoading(false);
       }

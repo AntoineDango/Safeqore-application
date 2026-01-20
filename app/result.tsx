@@ -5,8 +5,11 @@ import RiskMatrix from "../components/RiskMatrix";
 import { analyzeQuestionnaire, getReportUrl } from "../lib/api";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { emit } from "../lib/events";
+import { useAuthGuard } from "../lib/guard";
 
 export default function ResultScreen() {
+  useAuthGuard();
   const { state, setUserResult } = useAnalysis();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,6 +29,8 @@ export default function ResultScreen() {
           answers: state.answers,
         });
         setUserResult(res);
+        // Notify dashboard that a new analysis has been created (send full payload for optimistic update)
+        emit("analysis:created", res);
       } catch (e: any) {
         setError(e?.message || "Erreur lors du calcul");
       } finally {
@@ -64,8 +69,7 @@ export default function ResultScreen() {
         <Text>G: {r.G}   F: {r.F}   P: {r.P}   Score estime: {R}</Text>
       </View>
 
-      <RiskMatrix G={r.G} P={r.P} />
-
+     
       <Pressable
         onPress={() => Linking.openURL(getReportUrl(r.id))}
         style={{ marginTop: 12, padding: 14, borderRadius: 8, backgroundColor: "#2563eb", alignItems: "center" }}
@@ -78,6 +82,14 @@ export default function ResultScreen() {
         style={{ marginTop: 24, padding: 14, borderRadius: 8, backgroundColor: "#2563eb", alignItems: "center" }}
       >
         <Text style={{ color: "white", fontWeight: "600" }}>Voir l'analyse IA & comparaison</Text>
+      </Pressable>
+
+      {/* Bouton pour revenir au Dashboard */}
+      <Pressable
+        onPress={() => router.replace("/dashboard")}
+        style={{ marginTop: 12, padding: 14, borderRadius: 8, backgroundColor: "#111827", alignItems: "center" }}
+      >
+        <Text style={{ color: "white", fontWeight: "600" }}>Aller au dashboard</Text>
       </Pressable>
 
       {r.classification !== "Faible" && (
