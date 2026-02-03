@@ -14,6 +14,7 @@ from app.routers.user_router import router as user_router
 from app.routers.compare_router import router as compare_router
 from app.routers.admin_router import router as admin_router
 from app.routers.questionnaire_router import router as questionnaire_router
+from app.routers.project_router import router as project_router
 from app.constants import RISK_CATEGORIES, RISK_TYPES, SECTORS, RISK_CLASSES
 from app.auth.dependencies import get_current_user
 from app.firebase_admin_init import initialize_firebase
@@ -74,6 +75,7 @@ app.include_router(user_router)
 app.include_router(compare_router)
 app.include_router(admin_router)
 app.include_router(questionnaire_router)
+app.include_router(project_router)
 
 
 # Modèles pour les endpoints racine
@@ -166,6 +168,7 @@ API_PREFIXES = (
     "compare",
     "questionnaire",
     "admin",
+    "projects",
 )
 @app.get("/profile")
 async def get_profile(current_user: dict = Depends(get_current_user)):

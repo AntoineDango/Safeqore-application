@@ -9,7 +9,7 @@ Expose les endpoints attendus par le frontend mobile:
 - GET /questionnaire/analyses/{id}
 """
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Literal
@@ -17,6 +17,7 @@ from datetime import datetime
 from io import BytesIO
 import os
 import json
+from app.auth.dependencies import get_current_user
 
 # Stockage simple en JSON (même dossier que l'enrichissement)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -247,7 +248,14 @@ async def get_questions(sector: Optional[str] = Query(None, description="Filtrer
 
 
 @router.post("/analyze", response_model=QuestionnaireAnalyzeResponse)
-async def analyze_questionnaire(payload: QuestionnaireAnalyzeRequest):
+async def analyze_questionnaire(
+    payload: QuestionnaireAnalyzeRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    user_uid = current_user["uid"]
+    user_email = current_user.get("email", "")
+    print(f"[QuestionnaireRouter] Creating analysis for user: {user_uid} ({user_email})")
+    
     # Indexation rapide des questions et options
     q_map: Dict[str, Question] = {q.id: q for q in QUESTION_BANK}
     opt_map: Dict[str, Dict[str, QuestionOption]] = {
@@ -311,9 +319,13 @@ async def analyze_questionnaire(payload: QuestionnaireAnalyzeRequest):
         "classification": classification,
         "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
         "normalized_score_100": normalized_score_100,
+        "user_uid": user_uid,  # IMPORTANT: Lier l'analyse à l'utilisateur
+        "user_email": user_email,
     }
     all_data.append(item)
     _save_analyses(all_data)
+    
+    print(f"[QuestionnaireRouter] Analysis {new_id} created successfully for user {user_uid}")
 
     return QuestionnaireAnalyzeResponse(**item)  # type: ignore[arg-type]
 
@@ -468,20 +480,70 @@ async def generate_report(analysis_id: str):
 
     doc.add_heading("Analyse utilisateur", level=1)
     doc.add_paragraph(f"Méthode: {main.get('method')}")
-    doc.add_paragraph(f"G: {main.get('G')}  F: {main.get('F')}  P: {main.get('P')}  Score: {main.get('score')}  (/{125})")
-    doc.add_paragraph(f"Score normalisé: {main.get('normalized_score_100')} / 100")
+    doc.add_paragraph(f"G: {main.get('G')}  F: {main.get('F')}  P: {main.get('P')}")
+    doc.add_paragraph(f"Score: {main.get('normalized_score_100')} / 100")
     doc.add_paragraph(f"Classification: {main.get('classification')}")
+    
+    # Graphique visuel du score
+    def score_bar(val: int, max_val: int = 100, length: int = 50) -> str:
+        pct = max(0, min(max_val, val)) / float(max_val)
+        filled = int(round(pct * length))
+        return "█" * filled + "░" * (length - filled)
+    
+    score_normalized = main.get('normalized_score_100', 0)
+    doc.add_paragraph(f"Visualisation: {score_bar(score_normalized)}")
+    
+    # Graphique des facteurs G, F, P
+    doc.add_heading("Détail des facteurs", level=2)
+    
+    def factor_bar(val: int, max_val: int = 5, length: int = 20) -> str:
+        pct = max(0, min(max_val, val)) / float(max_val)
+        filled = int(round(pct * length))
+        return "█" * filled + "░" * (length - filled)
+    
+    factors_table = doc.add_table(rows=4, cols=2)
+    factors_table.style = "Table Grid"
+    factors_table.cell(0,0).text = "Facteur"
+    factors_table.cell(0,1).text = "Valeur (sur 5)"
+    
+    factors_table.cell(1,0).text = "G (Gravité)"
+    factors_table.cell(1,1).text = f"{main.get('G')}/5  |  {factor_bar(int(main.get('G', 1)))}"
+    
+    factors_table.cell(2,0).text = "F (Fréquence)"
+    factors_table.cell(2,1).text = f"{main.get('F')}/5  |  {factor_bar(int(main.get('F', 1)))}"
+    
+    factors_table.cell(3,0).text = "P (Probabilité)"
+    factors_table.cell(3,1).text = f"{main.get('P')}/5  |  {factor_bar(int(main.get('P', 1)))}"
 
     if ia:
         doc.add_heading("Analyse IA (assistance)", level=1)
-        doc.add_paragraph(f"G: {ia['G']}  F: {ia['F']}  P: {ia['P']}  Score: {ia['score']}  Classification: {ia['classification']}")
+        ia_score_normalized = int(round(ia['score'] / 125 * 100))
+        doc.add_paragraph(f"G: {ia['G']}  F: {ia['F']}  P: {ia['P']}")
+        doc.add_paragraph(f"Score: {ia_score_normalized} / 100  |  Classification: {ia['classification']}")
+        doc.add_paragraph(f"Visualisation: {score_bar(ia_score_normalized)}")
 
         # Comparison
         doc.add_heading("Comparaison (Utilisateur vs IA)", level=1)
         try:
-            h_score = int(main.get("score"))
-            diff = abs(h_score - ia["score"])  # type: ignore[index]
-            doc.add_paragraph(f"Écart de score: {diff}")
+            h_score_norm = int(main.get("normalized_score_100", 0))
+            diff = abs(h_score_norm - ia_score_normalized)
+            doc.add_paragraph(f"Écart de score: {diff} points (sur 100)")
+            
+            # Tableau comparatif
+            comp_table = doc.add_table(rows=3, cols=3)
+            comp_table.style = "Table Grid"
+            comp_table.cell(0,0).text = ""
+            comp_table.cell(0,1).text = "Utilisateur"
+            comp_table.cell(0,2).text = "IA"
+            
+            comp_table.cell(1,0).text = "Score /100"
+            comp_table.cell(1,1).text = str(h_score_norm)
+            comp_table.cell(1,2).text = str(ia_score_normalized)
+            
+            comp_table.cell(2,0).text = "Classification"
+            comp_table.cell(2,1).text = str(main.get('classification', ''))
+            comp_table.cell(2,2).text = str(ia['classification'])
+            
             doc.add_paragraph("Les décisions finales appartiennent à l'utilisateur.")
         except Exception:
             pass

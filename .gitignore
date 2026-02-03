@@ -9,4 +9,5 @@ node_modules/
 *.log
 dist/
 build/
-.env
+# Firebase credentials
+serviceAccountKey.json

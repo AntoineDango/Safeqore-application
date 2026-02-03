@@ -282,6 +282,10 @@ async def export_compare_report(request: CompareRequest):
 
     ia_score = kinney_score(ia_G, ia_F, ia_P)
     ia_classification = classify_from_score(ia_score)
+    
+    # Normaliser les scores sur 100
+    human_score_normalized = int(round(human_score / 125 * 100))
+    ia_score_normalized = int(round(ia_score / 125 * 100))
 
     # Document
     doc = Document()
@@ -291,11 +295,11 @@ async def export_compare_report(request: CompareRequest):
 
     doc.add_heading("Analyse Utilisateur", level=1)
     doc.add_paragraph(f"G: {request.user_G}  F: {request.user_F}  P: {request.user_P}")
-    doc.add_paragraph(f"Score: {human_score} / 125  |  Classification: {human_classification}")
+    doc.add_paragraph(f"Score: {human_score_normalized} / 100  |  Classification: {human_classification}")
 
     doc.add_heading("Analyse IA", level=1)
     doc.add_paragraph(f"G: {ia_G}  F: {ia_F}  P: {ia_P}")
-    doc.add_paragraph(f"Score: {ia_score} / 125  |  Classification: {ia_classification}")
+    doc.add_paragraph(f"Score: {ia_score_normalized} / 100  |  Classification: {ia_classification}")
     if ia_justification:
         doc.add_paragraph(f"Justification IA: {ia_justification}")
     if ia_causes:
@@ -329,9 +333,28 @@ async def export_compare_report(request: CompareRequest):
     table.cell(3,1).text = f"{request.user_P}  |  {bar(request.user_P)}"
     table.cell(3,2).text = f"{ia_P}  |  {bar(ia_P)}"
 
+    # Graphique du score global
+    doc.add_heading("Score Global (sur 100)", level=1)
+    
+    def score_bar(val: int, max_val: int = 100, length: int = 50) -> str:
+        pct = max(0, min(max_val, val)) / float(max_val)
+        filled = int(round(pct * length))
+        return "█" * filled + "░" * (length - filled)
+    
+    score_table = doc.add_table(rows=3, cols=2)
+    score_table.style = "Table Grid"
+    score_table.cell(0,0).text = "Analyse"
+    score_table.cell(0,1).text = "Score / 100"
+    
+    score_table.cell(1,0).text = "Utilisateur"
+    score_table.cell(1,1).text = f"{human_score_normalized}/100  |  {score_bar(human_score_normalized)}"
+    
+    score_table.cell(2,0).text = "IA"
+    score_table.cell(2,1).text = f"{ia_score_normalized}/100  |  {score_bar(ia_score_normalized)}"
+    
     # Écarts
     doc.add_heading("Comparaison & Écarts", level=1)
-    doc.add_paragraph(f"Écart score: {abs(human_score - ia_score)}")
+    doc.add_paragraph(f"Écart score: {abs(human_score_normalized - ia_score_normalized)} points (sur 100)")
     doc.add_paragraph("Les graphiques ci-dessus sont indicatifs (barres textuelles).")
 
     # Stream
