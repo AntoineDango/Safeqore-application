@@ -18,24 +18,63 @@ export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // If already authenticated, redirect to dashboard
+  // If already authenticated, redirect to dashboard or tabs
   useEffect(() => {
     let mounted = true;
     (async () => {
       try {
         const t = await getIdToken();
-        if (mounted && t) router.replace("/dashboard");
+        if (mounted && t) {
+          const isMobile = Platform.OS === "ios" || Platform.OS === "android";
+          router.replace(isMobile ? "/(tabs)" : "/dashboard");
+        }
       } catch {}
     })();
     return () => { mounted = false; };
   }, []);
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const onSubmit = async () => {
     setError(null);
+    
+    // Validation côté client
+    if (!email.trim()) {
+      setError("L'email est obligatoire.");
+      return;
+    }
+    
+    if (!validateEmail(email.trim())) {
+      setError("Format d'email invalide. Veuillez vérifier votre adresse email.");
+      return;
+    }
+    
+    if (!password) {
+      setError("Le mot de passe est obligatoire.");
+      return;
+    }
+    
+    if (password.length < 6) {
+      setError("Le mot de passe doit contenir au moins 6 caractères.");
+      return;
+    }
+    
     setLoading(true);
     try {
       await signInWithEmail(email.trim(), password);
-      router.replace("/dashboard");
+      
+      // Verify we have a token before redirecting
+      const token = await getIdToken();
+      if (!token) {
+        setError("Connexion réussie mais token non disponible. Veuillez réessayer.");
+        return;
+      }
+      
+      const isMobile = Platform.OS === "ios" || Platform.OS === "android";
+      router.replace(isMobile ? "/(tabs)" : "/dashboard");
     } catch (e: any) {
       setError(e?.message || "Échec de connexion");
     } finally {
@@ -286,7 +325,8 @@ export default function LoginScreen() {
                   setLoading(true);
                   try {
                     await signInWithGoogle();
-                    router.replace("/dashboard");
+                    const isMobile = Platform.OS === "ios" || Platform.OS === "android";
+                    router.replace(isMobile ? "/(tabs)" : "/dashboard");
                   } catch (e: any) {
                     setError(e?.message || "Connexion Google indisponible");
                   } finally {

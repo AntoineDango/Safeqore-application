@@ -11,16 +11,27 @@ import type {
   ResidualRequest,
   ResidualResponse,
   UserAnalysisListResponse,
+  AnalysisProject,
+  CreateProjectRequest,
+  AddRiskRequest,
+  UpdateRiskMitigationRequest,
+  ProjectSummaryListResponse,
+  RiskItem,
 } from "./types";
 
 async function http<T>(path: string, init?: RequestInit): Promise<T> {
   const authHeader = await getAuthHeader();
-  const needsAuth = path.startsWith("/profile") || path.startsWith("/user/");
+  const needsAuth = path.startsWith("/profile") || path.startsWith("/user/") || path.startsWith("/projects");
+  
+  console.log(`[API] Calling ${path}`, {
+    hasAuth: !!authHeader?.Authorization,
+    authPreview: authHeader?.Authorization ? authHeader.Authorization.substring(0, 30) + '...' : 'none'
+  });
+  
   if (needsAuth && !authHeader?.Authorization) {
-    // Aide au debug: on signale l'absence d'Authorization pour une route protégée
-    // eslint-disable-next-line no-console
-    console.warn(`[API] Missing Authorization header for protected path: ${path}`);
+    console.error(`[API] Missing Authorization header for protected path: ${path}`);
   }
+  
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...init,
     headers: {
@@ -29,6 +40,9 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
       ...(init?.headers || {}),
     },
   });
+  
+  console.log(`[API] Response for ${path}:`, res.status, res.statusText);
+  
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`${res.status} ${res.statusText}: ${text}`);
@@ -103,6 +117,26 @@ export const importAnalyses = (items: any[]) =>
 export const listUserAnalyses = (limit = 50, offset = 0) =>
   http<UserAnalysisListResponse>(`/user/analyses?limit=${limit}&offset=${offset}`);
 
+// Get a single user analysis by ID
+export const getUserAnalysis = (id: string) =>
+  http<QuestionnaireAnalyzeResponse>(`/user/analyses/${encodeURIComponent(id)}`);
+
+// Delete a user analysis by ID
+export const deleteUserAnalysis = async (id: string) => {
+  const authHeader = await getAuthHeader();
+  const res = await fetch(`${API_BASE_URL}/user/analyses/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+    headers: {
+      ...authHeader,
+    },
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`${res.status} ${res.statusText}: ${text}`);
+  }
+  return res.json();
+};
+
 export type ProfileResponse = {
   profile: {
     uid: string;
@@ -113,4 +147,125 @@ export type ProfileResponse = {
   };
 };
 
+export type ExtendedProfileResponse = {
+  profile: {
+    uid: string;
+    email?: string;
+    nom?: string;
+    prenom?: string;
+    fonction?: string;
+    entreprise?: string;
+    created_at?: string;
+    updated_at?: string;
+  };
+};
+
+export type CompleteProfileRequest = {
+  nom: string;
+  prenom: string;
+  fonction: string;
+  entreprise: string;
+};
+
 export const getProfile = () => http<ProfileResponse>("/profile");
+
+export const getExtendedProfile = () => http<ExtendedProfileResponse>("/user/profile/extended");
+
+export const completeProfile = (data: CompleteProfileRequest) =>
+  http<{ status: string; message: string; profile: any }>("/user/profile/complete", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+// Project-based analysis API
+export const createProject = (data: CreateProjectRequest) =>
+  http<AnalysisProject>("/projects/", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+export const listProjects = (limit = 50, offset = 0) =>
+  http<ProjectSummaryListResponse>(`/projects/?limit=${limit}&offset=${offset}`);
+
+export const getProject = (projectId: string) =>
+  http<AnalysisProject>(`/projects/${encodeURIComponent(projectId)}`);
+
+export const addRiskToProject = (data: AddRiskRequest) =>
+  http<RiskItem>(`/projects/${encodeURIComponent(data.project_id)}/risks`, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+export const updateRiskMitigation = (data: UpdateRiskMitigationRequest) =>
+  http<RiskItem>(`/projects/${encodeURIComponent(data.project_id)}/risks/${encodeURIComponent(data.risk_id)}/mitigation`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+
+export const deleteProject = async (projectId: string) => {
+  const authHeader = await getAuthHeader();
+  const res = await fetch(`${API_BASE_URL}/projects/${encodeURIComponent(projectId)}`, {
+    method: "DELETE",
+    headers: {
+      ...authHeader,
+    },
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`${res.status} ${res.statusText}: ${text}`);
+  }
+  return res.json();
+};
+
+export const deleteRiskFromProject = async (projectId: string, riskId: string) => {
+  const authHeader = await getAuthHeader();
+  const res = await fetch(`${API_BASE_URL}/projects/${encodeURIComponent(projectId)}/risks/${encodeURIComponent(riskId)}`, {
+    method: "DELETE",
+    headers: {
+      ...authHeader,
+    },
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`${res.status} ${res.statusText}: ${text}`);
+  }
+  return res.json();
+};
+
+// Mettre à jour un projet existant
+export const updateProject = (projectId: string, data: Partial<CreateProjectRequest>) =>
+  http<AnalysisProject>(`/projects/${encodeURIComponent(projectId)}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+
+// Dupliquer un projet
+export const duplicateProject = (projectId: string, newTitle?: string) =>
+  http<AnalysisProject>(`/projects/${encodeURIComponent(projectId)}/duplicate`, {
+    method: "POST",
+    body: JSON.stringify({ new_title: newTitle }),
+  });
+
+// Lancer une analyse IA comparative pour un projet
+export const analyzeProjectWithIA = async (projectId: string) => {
+  return http<{
+    project_id: string;
+    comparisons: Array<{
+      risk_id: string;
+      risk_description: string;
+      human_analysis: {
+        G: number; F: number; P: number; score: number; classification: string;
+      };
+      ia_analysis: {
+        G: number; F: number; P: number; score: number; classification: string;
+        causes?: string[]; recommendations?: string[]; justification?: string;
+      };
+      comparison: {
+        agreement_level?: string;
+        classifications_match?: boolean;
+      };
+    }>;
+  }>(`/projects/${encodeURIComponent(projectId)}/ai-analysis`, {
+    method: "POST",
+  });
+};

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "117587066520",
+    "project_id": "safeqore",
+    "storage_bucket": "safeqore.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117587066520:android:61faf4e07792d6d8731aed",
+        "android_client_info": {
+          "package_name": "com.safeqore.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117587066520-ch1g6ds270h358dpelepun9gmgv6vkks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.safeqore.app",
+            "certificate_hash": "1e5de042b418391d68a90872ad9a3a11c2178c4e"
+          }
+        },
+        {
+          "client_id": "117587066520-jr6q7618hl7kn9om6deqadjqjodrknoo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWsJlii8tTysqaXCRZN2i1jouaSQ4SjZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117587066520-jr6q7618hl7kn9om6deqadjqjodrknoo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "117587066520-ee5bpk9q6j1lk22jf3ll2fg9fetvmqnt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.safeqore.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

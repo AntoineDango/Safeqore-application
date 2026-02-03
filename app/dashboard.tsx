@@ -4,11 +4,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useAuthGuard } from "../lib/guard";
-import { getProfile, listUserAnalyses } from "../lib/api";
-import type { UserAnalysis, QuestionnaireAnalyzeResponse } from "../lib/types";
+import { getProfile, getExtendedProfile, listUserAnalyses, listProjects } from "../lib/api";
+import type { UserAnalysis, QuestionnaireAnalyzeResponse, ProjectSummary } from "../lib/types";
 import { emit, on, last } from "../lib/events";
 import { router } from "expo-router";
-import { signOut } from "../lib/auth_client";
 import { useFocusEffect } from "@react-navigation/native";
 
 function SkeletonCard() {
@@ -55,31 +54,56 @@ function ScorePill({ score }: { score: number }) {
 }
 
 export default function DashboardScreen() {
-  useAuthGuard();
+  const { loading: authLoading, authenticated } = useAuthGuard();
   const [profileName, setProfileName] = useState<string | undefined>(undefined);
   const [items, setItems] = useState<UserAnalysis[]>([]);
+  const [projects, setProjects] = useState<ProjectSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [filter, setFilter] = useState<"today"|"week"|"month"|"all">("all");
   const [q, setQ] = useState("");
   const [showToast, setShowToast] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"analyses"|"projects">("projects");
+
+  // Rediriger vers la version avec tabs sur mobile
+  useEffect(() => {
+    const isMobile = Platform.OS === "ios" || Platform.OS === "android";
+    if (isMobile) {
+      router.replace("/(tabs)");
+    }
+  }, []);
 
   const load = useCallback(async () => {
+    if (!authenticated) return;
+    
     setError(null);
     try {
-      const p = await getProfile();
-      setProfileName(p?.profile?.name || p?.profile?.email || undefined);
-      const resp = await listUserAnalyses(100, 0);
-      setItems(resp.analyses || []);
+      // Essayer d'abord de récupérer le profil étendu avec prénom
+      try {
+        const extendedProfile = await getExtendedProfile();
+        setProfileName(extendedProfile?.profile?.prenom || extendedProfile?.profile?.email || undefined);
+      } catch {
+        // Fallback sur le profil basique
+        const p = await getProfile();
+        setProfileName(p?.profile?.name || p?.profile?.email || undefined);
+      }
+      
+      const [analysesResp, projectsResp] = await Promise.all([
+        listUserAnalyses(100, 0),
+        listProjects(100, 0),
+      ]);
+      setItems(analysesResp.analyses || []);
+      setProjects(projectsResp.projects || []);
     } catch (e: any) {
       setError(e?.message || "Erreur de chargement du dashboard");
       setItems([]);
+      setProjects([]);
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
-  }, []);
+  }, [authenticated]);
 
   // Reload on screen focus to keep dashboard dynamic after navigation
   useFocusEffect(
@@ -160,7 +184,18 @@ export default function DashboardScreen() {
       if (filter === "month") return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
       return true;
     });
-    const byQuery = q.trim() ? byPeriod.filter((it) => it.description?.toLowerCase().includes(q.trim().toLowerCase())) : byPeriod;
+    // Recherche améliorée : description, catégorie, type, classification
+    const byQuery = q.trim() ? byPeriod.filter((it) => {
+      const query = q.trim().toLowerCase();
+      const classification = ((it as any).computed_classification || (it as any).classification || "").toLowerCase();
+      return (
+        it.description?.toLowerCase().includes(query) ||
+        it.category?.toLowerCase().includes(query) ||
+        it.type?.toLowerCase().includes(query) ||
+        classification.includes(query) ||
+        it.sector?.toLowerCase().includes(query)
+      );
+    }) : byPeriod;
     return byQuery;
   }, [items, filter, q, now]);
 
@@ -170,7 +205,10 @@ export default function DashboardScreen() {
     return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
   }).length;
   const avgScore = items.length ? Math.round(items.reduce((a, b) => a + (b.score || 0), 0) / items.length) : 0;
-  const highRiskCount = items.filter((it) => (it.computed_classification || "").toLowerCase().includes("élev")).length;
+  const highRiskCount = items.filter((it) => {
+    const classification = (it as any).computed_classification || (it as any).classification || "";
+    return classification.toLowerCase().includes("élev");
+  }).length;
 
   const recent = filtered.slice(0, 10);
 
@@ -186,26 +224,39 @@ export default function DashboardScreen() {
     load();
   }, [load]);
 
+  // Show loading screen while checking authentication
+  if (authLoading) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#f9fafb", justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#7C3AED" />
+        <Text style={{ marginTop: 16, color: "#6b7280" }}>Vérification de l'authentification...</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex:1, backgroundColor: "#f9fafb" }}>
-      <ScrollView style={{ flex:1 }} contentContainerStyle={{ padding: 20 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <ScrollView style={{ flex:1 }} contentContainerStyle={{ padding: 20, paddingBottom: Platform.OS === "android" ? 90 : 70 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         {/* Header */}
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-          <View>
-            <Text style={{ fontSize: 14, color: "#6b7280" }}>Bonjour{profileName ? `, ${profileName}` : ""}</Text>
-            <Text style={{ fontSize: 24, fontWeight: "800", color: "#111827" }}>Votre tableau de bord</Text>
-            <Text style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>{now.toLocaleString()}</Text>
-          </View>
-          <View style={{ flexDirection: "row", gap: 8 }}>
-            <Pressable onPress={() => router.push("/profile" as any)} style={{ paddingHorizontal: 14, paddingVertical: 10, borderRadius: 12, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb", flexDirection: "row", alignItems: "center", gap: 8 }}>
-              <Ionicons name="settings-outline" size={18} color="#374151" />
-              <Text style={{ color: "#374151", fontWeight: "600" }}>Profil</Text>
-            </Pressable>
-            <Pressable onPress={async () => { await signOut(); router.replace("/login"); }} style={{ paddingHorizontal: 14, paddingVertical: 10, borderRadius: 12, backgroundColor: "#fee2e2", borderWidth: 1, borderColor: "#fecaca", flexDirection: "row", alignItems: "center", gap: 8 }}>
-              <Ionicons name="log-out-outline" size={18} color="#b91c1c" />
-              <Text style={{ color: "#b91c1c", fontWeight: "700" }}>Déconnexion</Text>
+        <View style={{ marginBottom: 20 }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontSize: 14, color: "#6b7280" }}>Bonjour{profileName ? `, ${profileName}` : ""} 👋</Text>
+              <Text style={{ fontSize: 28, fontWeight: "800", color: "#111827", marginTop: 4 }}>Tableau de bord</Text>
+              <Text style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>{now.toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</Text>
+            </View>
+            <Pressable onPress={() => router.push("/profile" as any)} style={{ padding: 10, borderRadius: 12, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb" }}>
+              <Ionicons name="settings-outline" size={24} color="#374151" />
             </Pressable>
           </View>
+          
+          {/* Bouton Nouvelle Analyse */}
+          <Pressable onPress={() => router.push("/start")} style={{ marginTop: 12, borderRadius: 16, overflow: "hidden" }}>
+            <LinearGradient colors={["#7C3AED", "#2563EB"]} start={{x:0, y:0}} end={{x:1, y:1}} style={{ paddingVertical: 16, paddingHorizontal: 20, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10 }}>
+              <Ionicons name="add-circle" size={24} color="#fff" />
+              <Text style={{ color: "#fff", fontWeight: "800", fontSize: 16 }}>Nouvelle analyse de risque</Text>
+            </LinearGradient>
+          </Pressable>
         </View>
 
         {showToast && (
@@ -215,6 +266,51 @@ export default function DashboardScreen() {
           </View>
         )}
 
+        {/* View mode toggle */}
+        <View style={{ flexDirection: "row", gap: 8, marginBottom: 12 }}>
+          <Pressable
+            onPress={() => setViewMode("projects")}
+            style={{
+              flex: 1,
+              paddingVertical: 12,
+              borderRadius: 12,
+              backgroundColor: viewMode === "projects" ? "#7C3AED" : "#fff",
+              borderWidth: 1,
+              borderColor: viewMode === "projects" ? "#7C3AED" : "#e5e7eb",
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: 8,
+            }}
+          >
+            <Ionicons name="folder" size={20} color={viewMode === "projects" ? "#fff" : "#374151"} />
+            <Text style={{ fontWeight: "700", color: viewMode === "projects" ? "#fff" : "#374151" }}>
+              Projets ({projects.length})
+            </Text>
+          </Pressable>
+          
+          <Pressable
+            onPress={() => setViewMode("analyses")}
+            style={{
+              flex: 1,
+              paddingVertical: 12,
+              borderRadius: 12,
+              backgroundColor: viewMode === "analyses" ? "#7C3AED" : "#fff",
+              borderWidth: 1,
+              borderColor: viewMode === "analyses" ? "#7C3AED" : "#e5e7eb",
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: 8,
+            }}
+          >
+            <Ionicons name="analytics" size={20} color={viewMode === "analyses" ? "#fff" : "#374151"} />
+            <Text style={{ fontWeight: "700", color: viewMode === "analyses" ? "#fff" : "#374151" }}>
+              Analyses ({items.length})
+            </Text>
+          </Pressable>
+        </View>
+
         {/* Filters + Search */}
         <View style={{ flexDirection: "row", gap: 8, alignItems: "center", marginBottom: 12, flexWrap: "wrap" }}>
           <Pressable onPress={() => setFilter("all")} style={{ paddingHorizontal: 12, paddingVertical: 8, borderRadius: 999, backgroundColor: filter === "all" ? "#dbeafe" : "#fff", borderWidth: 1, borderColor: filter === "all" ? "#60a5fa" : "#e5e7eb" }}>
@@ -223,7 +319,7 @@ export default function DashboardScreen() {
 
           <View style={{ flex: 1, minWidth: 180, position: "relative" }}>
             <Ionicons name="search" size={18} color="#9ca3af" style={{ position: "absolute", left: 10, top: 10 }} />
-            <TextInput value={q} onChangeText={setQ} placeholder="Rechercher une analyse" placeholderTextColor="#9ca3af" style={{ paddingLeft: 34, paddingRight: 12, paddingVertical: 8, borderRadius: 999, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb" }} />
+            <TextInput value={q} onChangeText={setQ} placeholder="Rechercher..." placeholderTextColor="#9ca3af" style={{ paddingLeft: 34, paddingRight: 12, paddingVertical: 8, borderRadius: 999, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb" }} />
           </View>
         </View>
 
@@ -255,7 +351,7 @@ export default function DashboardScreen() {
         )}
 
         {/* Empty state */}
-        {!loading && items.length === 0 && (
+        {!loading && viewMode === "projects" && projects.length === 0 && items.length === 0 && (
           <View style={{ marginTop: 16, padding: 24, borderRadius: 16, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb", alignItems: "center" }}>
             <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: "#f3f4f6", alignItems: "center", justifyContent: "center" }}>
               <Ionicons name="analytics" size={36} color="#7C3AED" />
@@ -270,8 +366,86 @@ export default function DashboardScreen() {
           </View>
         )}
 
-        {/* Recent list */}
-        {recent.length > 0 && (
+        {!loading && viewMode === "analyses" && items.length === 0 && (
+          <View style={{ marginTop: 16, padding: 24, borderRadius: 16, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb", alignItems: "center" }}>
+            <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: "#f3f4f6", alignItems: "center", justifyContent: "center" }}>
+              <Ionicons name="analytics" size={36} color="#7C3AED" />
+            </View>
+            <Text style={{ marginTop: 12, fontSize: 18, fontWeight: "800", color: "#111827" }}>Aucune analyse rapide</Text>
+            <Text style={{ marginTop: 4, color: "#6b7280", textAlign: "center" }}>Les analyses rapides apparaîtront ici</Text>
+          </View>
+        )}
+
+        {/* Projects list */}
+        {viewMode === "projects" && projects.length > 0 && (
+          <View style={{ marginTop: 16, padding: 16, borderRadius: 12, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb" }}>
+            <Text style={{ fontSize: 18, fontWeight: "800", color: "#111827", marginBottom: 12 }}>
+              Projets d'analyse ({projects.length})
+            </Text>
+            <View style={{ gap: 12 }}>
+              {projects.map((proj) => (
+                <Pressable
+                  key={proj.id}
+                  onPress={() => router.push({ pathname: "/saved-project-view", params: { projectId: proj.id } } as any)}
+                  style={{ padding: 14, borderRadius: 12, borderWidth: 1, borderColor: "#e5e7eb", backgroundColor: "#fafafa" }}
+                >
+                  <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                    <View style={{ flex: 1 }}>
+                      <Text style={{ fontSize: 16, fontWeight: "700", color: "#111827", marginBottom: 4 }}>
+                        {proj.analysis_title}
+                      </Text>
+                      <Text style={{ fontSize: 12, color: "#6b7280" }}>
+                        {new Date(proj.updated_at).toLocaleDateString()}
+                      </Text>
+                    </View>
+                    <View style={{ paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999, backgroundColor: proj.status === "completed" ? "#d1fae5" : "#fef3c7" }}>
+                      <Text style={{ fontSize: 12, fontWeight: "700", color: proj.status === "completed" ? "#065f46" : "#92400e" }}>
+                        {proj.status === "completed" ? "Complété" : "En cours"}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                      <Ionicons name={proj.project_type === "project" ? "briefcase" : "business"} size={14} color="#6b7280" />
+                      <Text style={{ fontSize: 12, color: "#6b7280" }}>
+                        {proj.project_type === "project" ? "Projet" : "Entité"}
+                      </Text>
+                    </View>
+                    {proj.entity_type && (
+                      <View style={{ paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, backgroundColor: "#eef2ff" }}>
+                        <Text style={{ fontSize: 11, fontWeight: "600", color: "#3730a3" }}>{proj.entity_type}</Text>
+                      </View>
+                    )}
+                    {proj.sector && (
+                      <View style={{ paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, backgroundColor: "#f3f4f6" }}>
+                        <Text style={{ fontSize: 11, fontWeight: "600", color: "#374151" }}>{proj.sector}</Text>
+                      </View>
+                    )}
+                  </View>
+
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                      <Ionicons name="warning" size={16} color="#f59e0b" />
+                      <Text style={{ fontSize: 12, fontWeight: "600", color: "#374151" }}>
+                        {proj.risks_count} risques
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                      <Ionicons name="checkmark-circle" size={16} color="#10b981" />
+                      <Text style={{ fontSize: 12, fontWeight: "600", color: "#374151" }}>
+                        {proj.completed_risks_count} traités
+                      </Text>
+                    </View>
+                  </View>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        )}
+
+        {/* Recent analyses list */}
+        {viewMode === "analyses" && recent.length > 0 && (
           <View style={{ marginTop: 16, padding: 16, borderRadius: 16, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb" }}>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
               <Text style={{ fontSize: 18, fontWeight: "800", color: "#111827" }}>Analyses récentes</Text>
@@ -281,7 +455,8 @@ export default function DashboardScreen() {
             </View>
             <View style={{ gap: 10 }}>
               {recent.map((it) => {
-                const b = classBadge(it.computed_classification);
+                const classification = (it as any).computed_classification || (it as any).classification || "";
+                const b = classBadge(classification);
                 const desc = it.description?.length > 90 ? it.description.slice(0, 90) + "…" : it.description;
                 return (
                   <View key={it.id} style={{ padding: 12, borderRadius: 12, borderWidth: 1, borderColor: "#e5e7eb", backgroundColor: "#fff" }}>
@@ -295,14 +470,9 @@ export default function DashboardScreen() {
                           <ScorePill score={it.score} />
                         </View>
                       </View>
-                      <View style={{ gap: 8 }}>
-                        <Pressable onPress={() => router.push({ pathname: "/result", params: { id: it.id } } as any)} style={{ paddingHorizontal: 12, paddingVertical: 8, borderRadius: 8, backgroundColor: "#f3f4f6" }}>
-                          <Text style={{ color: "#374151", fontWeight: "600" }}>Voir détails</Text>
-                        </Pressable>
-                        <Pressable onPress={() => router.push("/compare")} style={{ paddingHorizontal: 12, paddingVertical: 8, borderRadius: 8, backgroundColor: "#e0e7ff" }}>
-                          <Text style={{ color: "#3730a3", fontWeight: "700" }}>Comparer avec IA</Text>
-                        </Pressable>
-                      </View>
+                      <Pressable onPress={() => router.push({ pathname: "/analysis-details", params: { id: it.id } } as any)} style={{ paddingHorizontal: 12, paddingVertical: 8, borderRadius: 8, backgroundColor: "#f3f4f6" }}>
+                        <Text style={{ color: "#374151", fontWeight: "600" }}>Voir détails</Text>
+                      </Pressable>
                     </View>
                   </View>
                 );
@@ -323,7 +493,9 @@ export default function DashboardScreen() {
               {(() => {
                 const groups = { faible: 0, modere: 0, eleve: 0 } as Record<string, number>;
                 items.forEach((it) => {
-                  const s = it.computed_classification.toLowerCase();
+                  // Support both computed_classification and classification fields
+                  const classification = (it as any).computed_classification || (it as any).classification || "";
+                  const s = classification.toLowerCase();
                   if (s.includes("élev") || s.includes("eleve")) groups.eleve++;
                   else if (s.includes("mod")) groups.modere++;
                   else groups.faible++;
@@ -410,12 +582,7 @@ export default function DashboardScreen() {
 
       </ScrollView>
 
-      {/* Floating Action Button */}
-      <Pressable onPress={() => router.push("/start")} style={{ position: "absolute", right: 20, bottom: 20, borderRadius: 999, overflow: "hidden", shadowColor: "#000", shadowOpacity: 0.2, shadowRadius: 10, elevation: 6 }}>
-        <LinearGradient colors={["#7C3AED", "#2563EB"]} start={{x:0, y:0}} end={{x:1, y:1}} style={{ padding: 16 }}>
-          <Ionicons name="add" size={28} color="#fff" />
-        </LinearGradient>
-      </Pressable>
+    
     </SafeAreaView>
   );
 }

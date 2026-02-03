@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, Platform } from "react-native";
 import { Redirect } from "expo-router";
 import { getIdToken } from "../lib/auth";
 
@@ -30,5 +30,7 @@ export default function Index() {
     );
   }
 
-  return <Redirect href={authed ? "/dashboard" : "/login"} />;
+  const isMobile = Platform.OS === "ios" || Platform.OS === "android";
+  const dashboardPath = isMobile ? "/(tabs)" : "/dashboard";
+  return <Redirect href={authed ? dashboardPath : "/login"} />;
 }

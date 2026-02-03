@@ -54,6 +54,8 @@ export type QuestionnaireAnalyzeResponse = {
   classification: "Faible" | "Modéré" | "Élevé";
   justification: string;
   normalized_score_100: number;
+  causes?: string[];
+  recommendations?: string[];
 };
 
 export type CompareRequest = {
@@ -140,4 +142,90 @@ export type UserAnalysisListResponse = {
   limit: number;
   offset: number;
   analyses: UserAnalysis[];
+};
+
+// Project-based analysis types
+export type EntityType = "Startup" | "TPE" | "PME" | "ETI" | "Grands groupes" | "Indépendant/auto-entrepreneur";
+
+export type RiskEvaluation = {
+  G: number;
+  F: number;
+  P: number;
+  score: number;
+  level: "Faible" | "Moyen" | "Élevé";
+};
+
+export type RiskItem = {
+  id: string;
+  description: string;
+  category: Category;
+  type: RiskType;
+  initial_evaluation: RiskEvaluation;
+  mitigation_measure: string;
+  residual_evaluation: RiskEvaluation | null;
+  created_at: string;
+};
+
+export type AnalysisProject = {
+  id: string;
+  project_type: "project" | "entity";
+  project_description: string;
+  entity_type?: EntityType;
+  entity_services?: string;
+  analysis_title: string;
+  sector?: string;
+  risks: RiskItem[];
+  user_uid: string;
+  user_email?: string;
+  created_at: string;
+  updated_at: string;
+  status: "draft" | "completed";
+};
+
+export type CreateProjectRequest = {
+  project_type: "project" | "entity";
+  project_description: string;
+  entity_type?: EntityType;
+  entity_services?: string;
+  analysis_title: string;
+  sector?: string;
+};
+
+export type AddRiskRequest = {
+  project_id: string;
+  description: string;
+  category: Category;
+  type: RiskType;
+  G: number;
+  F: number;
+  P: number;
+};
+
+export type UpdateRiskMitigationRequest = {
+  project_id: string;
+  risk_id: string;
+  mitigation_measure: string;
+  residual_G: number;
+  residual_F: number;
+  residual_P: number;
+};
+
+export type ProjectSummary = {
+  id: string;
+  analysis_title: string;
+  project_type: "project" | "entity";
+  entity_type?: EntityType;
+  sector?: string;
+  risks_count: number;
+  completed_risks_count: number;
+  status: "draft" | "completed";
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProjectSummaryListResponse = {
+  total: number;
+  limit: number;
+  offset: number;
+  projects: ProjectSummary[];
 };

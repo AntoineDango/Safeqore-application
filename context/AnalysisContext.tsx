@@ -1,15 +1,36 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
-import type { AnswerItem, Category, RiskType, Sector, QuestionnaireAnalyzeResponse, CompareResponse } from "../lib/types";
+import type { AnswerItem, Category, RiskType, Sector, QuestionnaireAnalyzeResponse, CompareResponse, EntityType } from "../lib/types";
+
+export type RiskInProgress = {
+  id: string;
+  description: string;
+  category: Category;
+  type: RiskType;
+  answers: AnswerItem[];
+  userResult?: QuestionnaireAnalyzeResponse;
+  mitigation?: string;
+  residualResult?: QuestionnaireAnalyzeResponse;
+};
 
 export type AnalysisState = {
-  // Context
+  // Informations du projet
+  projectType?: "project" | "entity";
+  projectDescription?: string;
+  entityType?: EntityType;
+  entityServices?: string;
+  analysisTitle?: string;
   sector?: Sector;
+  
+  // Risques du projet (minimum 4)
+  risks: RiskInProgress[];
+  currentRiskIndex?: number;
+  
+  // Ancien flux (pour compatibilité)
   projectName?: string;
   description?: string;
   category?: Category;
   type?: RiskType;
   answers: AnswerItem[];
-  // Results
   userResult?: QuestionnaireAnalyzeResponse;
   compareResult?: CompareResponse;
   measures?: string[];
@@ -17,10 +38,18 @@ export type AnalysisState = {
 
 const defaultState: AnalysisState = {
   answers: [],
+  risks: [],
 };
 
 export type AnalysisContextType = {
   state: AnalysisState;
+  // Nouveau flux projet
+  setProjectInfo: (type: "project" | "entity", description: string, title: string, sector?: string, entityType?: EntityType, entityServices?: string) => void;
+  addRisk: (risk: RiskInProgress) => void;
+  updateRisk: (index: number, risk: Partial<RiskInProgress>) => void;
+  setCurrentRiskIndex: (index: number) => void;
+  resetProject: () => void;
+  // Ancien flux (compatibilité)
   setSector: (s: Sector) => void;
   setProjectName: (n?: string) => void;
   setRiskInfo: (d: string, c: Category, t: RiskType) => void;
@@ -39,6 +68,24 @@ export const AnalysisProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const api: AnalysisContextType = useMemo(() => ({
     state,
+    // Nouveau flux projet
+    setProjectInfo: (type, description, title, sector, entityType, entityServices) => setState((prev) => ({
+      ...prev,
+      projectType: type,
+      projectDescription: description,
+      analysisTitle: title,
+      sector,
+      entityType,
+      entityServices,
+    })),
+    addRisk: (risk) => setState((prev) => ({ ...prev, risks: [...prev.risks, risk] })),
+    updateRisk: (index, risk) => setState((prev) => ({
+      ...prev,
+      risks: prev.risks.map((r, i) => i === index ? { ...r, ...risk } : r),
+    })),
+    setCurrentRiskIndex: (index) => setState((prev) => ({ ...prev, currentRiskIndex: index })),
+    resetProject: () => setState(defaultState),
+    // Ancien flux (compatibilité)
     setSector: (s) => setState((prev) => ({ ...prev, sector: s })),
     setProjectName: (n) => setState((prev) => ({ ...prev, projectName: n })),
     setRiskInfo: (d, c, t) => setState((prev) => ({ ...prev, description: d, category: c, type: t })),

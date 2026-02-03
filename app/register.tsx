@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Pressable, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { router } from "expo-router";
 import { signUpWithEmail, signInWithGoogle } from "../lib/auth_client";
+import { completeProfile } from "../lib/api";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -9,6 +10,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getIdToken } from "../lib/auth";
 
 export default function RegisterScreen() {
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [fonction, setFonction] = useState("");
+  const [entreprise, setEntreprise] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -23,22 +28,97 @@ export default function RegisterScreen() {
     (async () => {
       try {
         const t = await getIdToken();
-        if (mounted && t) router.replace("/dashboard");
+        if (mounted && t) {
+          const isMobile = Platform.OS === "ios" || Platform.OS === "android";
+          router.replace(isMobile ? "/(tabs)" : "/dashboard");
+        }
       } catch {}
     })();
     return () => { mounted = false; };
   }, []);
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const onSubmit = async () => {
     setError(null);
-    if (password !== confirm) {
-      setError("Les mots de passe ne correspondent pas");
+    
+    // Validation côté client
+    if (!nom.trim()) {
+      setError("Le nom est obligatoire.");
       return;
     }
+    
+    if (!prenom.trim()) {
+      setError("Le prénom est obligatoire.");
+      return;
+    }
+    
+    if (!fonction.trim()) {
+      setError("La fonction est obligatoire.");
+      return;
+    }
+    
+    if (!entreprise.trim()) {
+      setError("L'entreprise/entité est obligatoire.");
+      return;
+    }
+    
+    if (!email.trim()) {
+      setError("L'email est obligatoire.");
+      return;
+    }
+    
+    if (!validateEmail(email.trim())) {
+      setError("Format d'email invalide. Veuillez vérifier votre adresse email.");
+      return;
+    }
+    
+    if (!password) {
+      setError("Le mot de passe est obligatoire.");
+      return;
+    }
+    
+    if (password.length < 6) {
+      setError("Le mot de passe doit contenir au moins 6 caractères.");
+      return;
+    }
+    
+    if (password !== confirm) {
+      setError("Les mots de passe ne correspondent pas.");
+      return;
+    }
+    
     setLoading(true);
     try {
+      // Créer le compte Firebase
       await signUpWithEmail(email.trim(), password);
-      router.replace({ pathname: "/login", params: { email, created: "1" } } as any);
+      
+      // Attendre un peu pour que le token soit disponible
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Envoyer les informations supplémentaires au backend
+      try {
+        await completeProfile({
+          nom: nom.trim(),
+          prenom: prenom.trim(),
+          fonction: fonction.trim(),
+          entreprise: entreprise.trim()
+        });
+        console.log("[Register] Profile completed successfully");
+      } catch (profileError: any) {
+        console.error("[Register] Failed to complete profile:", profileError);
+        // Ne pas bloquer l'inscription si l'API échoue
+        // L'utilisateur pourra compléter son profil plus tard
+      }
+      
+      // Rediriger vers la page de confirmation
+      router.replace({ 
+        pathname: "/register-success", 
+        params: { email } 
+      } as any);
     } catch (e: any) {
       setError(e?.message || "Échec de l'inscription");
     } finally {
@@ -46,7 +126,7 @@ export default function RegisterScreen() {
     }
   };
 
-  const canSubmit = !!email && !!password && password.length >= 6 && password === confirm && !loading;
+  const canSubmit = !!nom && !!prenom && !!fonction && !!entreprise && !!email && !!password && password.length >= 6 && password === confirm && !loading;
   const passwordStrength = password.length >= 8 ? "forte" : password.length >= 6 ? "moyenne" : "faible";
   const strengthColor = passwordStrength === "forte" ? "#10b981" : passwordStrength === "moyenne" ? "#f59e0b" : "#ef4444";
 
@@ -126,10 +206,138 @@ export default function RegisterScreen() {
 
               {/* Formulaire */}
               <View style={{ gap:20 }}>
+                {/* Nom */}
+                <View style={{ gap:8 }}>
+                  <Text style={{ fontSize:14, fontWeight:"600", color:"#374151" }}>
+                    Nom <Text style={{ color:"#ef4444" }}>*</Text>
+                  </Text>
+                  <View style={{ position:"relative" }}>
+                    <Ionicons 
+                      name="person-outline" 
+                      size={20} 
+                      color="#9ca3af" 
+                      style={{ position:"absolute", left:16, top:16, zIndex:1 }}
+                    />
+                    <TextInput
+                      value={nom}
+                      onChangeText={setNom}
+                      placeholder="Votre nom"
+                      placeholderTextColor="#9ca3af"
+                      style={{ 
+                        borderWidth:2, 
+                        borderColor:"#e5e7eb", 
+                        paddingVertical:14,
+                        paddingLeft:48,
+                        paddingRight:16,
+                        borderRadius:12, 
+                        backgroundColor:"#f9fafb",
+                        fontSize:15,
+                        color:"#111827"
+                      }}
+                    />
+                  </View>
+                </View>
+
+                {/* Prénom */}
+                <View style={{ gap:8 }}>
+                  <Text style={{ fontSize:14, fontWeight:"600", color:"#374151" }}>
+                    Prénom <Text style={{ color:"#ef4444" }}>*</Text>
+                  </Text>
+                  <View style={{ position:"relative" }}>
+                    <Ionicons 
+                      name="person-outline" 
+                      size={20} 
+                      color="#9ca3af" 
+                      style={{ position:"absolute", left:16, top:16, zIndex:1 }}
+                    />
+                    <TextInput
+                      value={prenom}
+                      onChangeText={setPrenom}
+                      placeholder="Votre prénom"
+                      placeholderTextColor="#9ca3af"
+                      style={{ 
+                        borderWidth:2, 
+                        borderColor:"#e5e7eb", 
+                        paddingVertical:14,
+                        paddingLeft:48,
+                        paddingRight:16,
+                        borderRadius:12, 
+                        backgroundColor:"#f9fafb",
+                        fontSize:15,
+                        color:"#111827"
+                      }}
+                    />
+                  </View>
+                </View>
+
+                {/* Fonction */}
+                <View style={{ gap:8 }}>
+                  <Text style={{ fontSize:14, fontWeight:"600", color:"#374151" }}>
+                    Fonction <Text style={{ color:"#ef4444" }}>*</Text>
+                  </Text>
+                  <View style={{ position:"relative" }}>
+                    <Ionicons 
+                      name="briefcase-outline" 
+                      size={20} 
+                      color="#9ca3af" 
+                      style={{ position:"absolute", left:16, top:16, zIndex:1 }}
+                    />
+                    <TextInput
+                      value={fonction}
+                      onChangeText={setFonction}
+                      placeholder="Ex: Responsable Qualité"
+                      placeholderTextColor="#9ca3af"
+                      style={{ 
+                        borderWidth:2, 
+                        borderColor:"#e5e7eb", 
+                        paddingVertical:14,
+                        paddingLeft:48,
+                        paddingRight:16,
+                        borderRadius:12, 
+                        backgroundColor:"#f9fafb",
+                        fontSize:15,
+                        color:"#111827"
+                      }}
+                    />
+                  </View>
+                </View>
+
+                {/* Entreprise */}
+                <View style={{ gap:8 }}>
+                  <Text style={{ fontSize:14, fontWeight:"600", color:"#374151" }}>
+                    Entreprise / Entité <Text style={{ color:"#ef4444" }}>*</Text>
+                  </Text>
+                  <View style={{ position:"relative" }}>
+                    <Ionicons 
+                      name="business-outline" 
+                      size={20} 
+                      color="#9ca3af" 
+                      style={{ position:"absolute", left:16, top:16, zIndex:1 }}
+                    />
+                    <TextInput
+                      value={entreprise}
+                      onChangeText={setEntreprise}
+                      placeholder="Nom de votre entreprise"
+                      placeholderTextColor="#9ca3af"
+                      style={{ 
+                        borderWidth:2, 
+                        borderColor:"#e5e7eb", 
+                        paddingVertical:14,
+                        paddingLeft:48,
+                        paddingRight:16,
+                        borderRadius:12, 
+                        backgroundColor:"#f9fafb",
+                        fontSize:15,
+                        color:"#111827"
+                      }}
+                    />
+                  </View>
+                </View>
+
                 {/* Email */}
                 <View style={{ gap:8 }}>
                   <Text style={{ fontSize:14, fontWeight:"600", color:"#374151" }}>
-                    Adresse email
+                    Adresse email <Text style={{ color:"#ef4444" }}>*</Text>
                   </Text>
                   <View style={{ position:"relative" }}>
                     <Ionicons 
@@ -372,7 +580,8 @@ export default function RegisterScreen() {
                   setLoading(true);
                   try {
                     await signInWithGoogle();
-                    router.replace("/start");
+                    const isMobile = Platform.OS === "ios" || Platform.OS === "android";
+                    router.replace(isMobile ? "/(tabs)" : "/dashboard");
                   } catch (e: any) {
                     setError(e?.message || "Connexion Google indisponible");
                   } finally {
