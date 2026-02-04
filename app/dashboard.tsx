@@ -66,13 +66,6 @@ export default function DashboardScreen() {
   const [showToast, setShowToast] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"analyses"|"projects">("projects");
 
-  // Rediriger vers la version avec tabs sur mobile
-  useEffect(() => {
-    const isMobile = Platform.OS === "ios" || Platform.OS === "android";
-    if (isMobile) {
-      router.replace("/(tabs)");
-    }
-  }, []);
 
   const load = useCallback(async () => {
     if (!authenticated) return;
@@ -245,18 +238,18 @@ export default function DashboardScreen() {
               <Text style={{ fontSize: 28, fontWeight: "800", color: "#111827", marginTop: 4 }}>Tableau de bord</Text>
               <Text style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>{now.toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</Text>
             </View>
-            <Pressable onPress={() => router.push("/profile" as any)} style={{ padding: 10, borderRadius: 12, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb" }}>
-              <Ionicons name="settings-outline" size={24} color="#374151" />
-            </Pressable>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <Pressable onPress={() => router.push("/start")} style={{ borderRadius: 10, overflow: "hidden" }}>
+                <LinearGradient colors={["#7C3AED", "#2563EB"]} start={{x:0, y:0}} end={{x:1, y:1}} style={{ paddingVertical: 8, paddingHorizontal: 12, flexDirection: "row", alignItems: "center", gap: 6 }}>
+                  <Ionicons name="add-circle" size={18} color="#fff" />
+                  <Text style={{ color: "#fff", fontWeight: "800", fontSize: 12 }}>Créer une analyse</Text>
+                </LinearGradient>
+              </Pressable>
+              <Pressable onPress={() => router.push("/profile" as any)} style={{ padding: 10, borderRadius: 12, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb" }}>
+                <Ionicons name="settings-outline" size={24} color="#374151" />
+              </Pressable>
+            </View>
           </View>
-          
-          {/* Bouton Nouvelle Analyse */}
-          <Pressable onPress={() => router.push("/start")} style={{ marginTop: 12, borderRadius: 16, overflow: "hidden" }}>
-            <LinearGradient colors={["#7C3AED", "#2563EB"]} start={{x:0, y:0}} end={{x:1, y:1}} style={{ paddingVertical: 16, paddingHorizontal: 20, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10 }}>
-              <Ionicons name="add-circle" size={24} color="#fff" />
-              <Text style={{ color: "#fff", fontWeight: "800", fontSize: 16 }}>Nouvelle analyse de risque</Text>
-            </LinearGradient>
-          </Pressable>
         </View>
 
         {showToast && (

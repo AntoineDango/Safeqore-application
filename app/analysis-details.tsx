@@ -244,7 +244,7 @@ export default function AnalysisDetailsScreen() {
             style={{ paddingVertical: 14, paddingHorizontal: 20, borderRadius: 12, backgroundColor: "#fff", borderWidth: 2, borderColor: "#7C3AED", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8 }}
           >
             <Ionicons name="git-compare" size={20} color="#7C3AED" />
-            <Text style={{ color: "#7C3AED", fontWeight: "700" }}>Comparer avec l'IA</Text>
+            <Text style={{ color: "#7C3AED", fontWeight: "700" }}>Comparer Humain / IA</Text>
           </Pressable>
 
           <Pressable

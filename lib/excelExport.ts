@@ -17,6 +17,7 @@ function getSharing() {
  * Génère un rapport Excel pour un projet d'analyse
  */
 export async function generateProjectExcel(project: AnalysisProject): Promise<void> {
+  const to100 = (raw: number) => Math.round((raw / 125) * 100);
   const rows = [];
   
   // En-tête
@@ -28,12 +29,12 @@ export async function generateProjectExcel(project: AnalysisProject): Promise<vo
     'Gravité (utilisateur)',
     'Fréquence (utilisateur)',
     'Probabilité (utilisateur)',
-    'Résultat / Note globale (utilisateur)',
+    'Résultat / Note globale (utilisateur, /100)',
     'Description de la mesure de contournement',
     'Gravité (après contournement)',
     'Fréquence (après contournement)',
     'Probabilité (après contournement)',
-    'Résultat / Note globale (après contournement)',
+    'Résultat / Note globale (après contournement, /100)',
     'Commentaires'
   ]);
   
@@ -47,12 +48,12 @@ export async function generateProjectExcel(project: AnalysisProject): Promise<vo
       risk.initial_evaluation.G,
       risk.initial_evaluation.F,
       risk.initial_evaluation.P,
-      risk.initial_evaluation.score,
+      to100(risk.initial_evaluation.score),
       risk.mitigation_measure || '',
       risk.residual_evaluation?.G || '',
       risk.residual_evaluation?.F || '',
       risk.residual_evaluation?.P || '',
-      risk.residual_evaluation?.score || '',
+      typeof risk.residual_evaluation?.score === 'number' ? to100(risk.residual_evaluation!.score) : '',
       '' // Commentaires
     ]);
   });
@@ -125,6 +126,7 @@ export async function generateComparativeExcel(
   project: AnalysisProject,
   iaComparisons: Array<{ risk: RiskItem; comparison: CompareResponse }>
 ): Promise<void> {
+  const to100 = (raw: number) => Math.round((raw / 125) * 100);
   const rows = [];
   
   // En-tête étendu
@@ -136,17 +138,17 @@ export async function generateComparativeExcel(
     'G (Utilisateur)',
     'F (Utilisateur)',
     'P (Utilisateur)',
-    'Score (Utilisateur)',
+    'Score (Utilisateur, /100)',
     'Mesure de contournement',
     'G résiduel (Utilisateur)',
     'F résiduel (Utilisateur)',
     'P résiduel (Utilisateur)',
-    'Score résiduel (Utilisateur)',
+    'Score résiduel (Utilisateur, /100)',
     'Description du risque selon l\'IA',
     'G (IA)',
     'F (IA)',
     'P (IA)',
-    'Score (IA)',
+    'Score (IA, /100)',
     'Classification (IA)',
     'Préconisation / Solution IA',
     'Niveau d\'accord',
@@ -167,17 +169,17 @@ export async function generateComparativeExcel(
       risk.initial_evaluation.G,
       risk.initial_evaluation.F,
       risk.initial_evaluation.P,
-      risk.initial_evaluation.score,
+      to100(risk.initial_evaluation.score),
       risk.mitigation_measure || '',
       risk.residual_evaluation?.G || '',
       risk.residual_evaluation?.F || '',
       risk.residual_evaluation?.P || '',
-      risk.residual_evaluation?.score || '',
+      typeof risk.residual_evaluation?.score === 'number' ? to100(risk.residual_evaluation!.score) : '',
       risk.description, // On pourrait enrichir avec l'analyse IA
       iaAnalysis.G,
       iaAnalysis.F,
       iaAnalysis.P,
-      iaAnalysis.score,
+      to100(iaAnalysis.score),
       iaAnalysis.classification,
       (iaAnalysis.recommendations || []).join('; '),
       comparisonData.agreement_level || 'N/A',

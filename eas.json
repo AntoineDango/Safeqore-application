@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 16.31.0",
+    "version": ">= 16.32.0",
     "appVersionSource": "remote"
   },
   "build": {
@@ -9,10 +9,20 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_BASE_URL": "https://safeqore-application.onrender.com"
+      },
+      "autoIncrement": true
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_BASE_URL": "https://safeqore-application.onrender.com"
+      }
     }
   },
   "submit": {

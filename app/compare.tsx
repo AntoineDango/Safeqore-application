@@ -4,10 +4,12 @@ import { useAnalysis } from "../context/AnalysisContext";
 import { compareAnalyses, exportCompareReport } from "../lib/api";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthGuard } from "../lib/guard";
+import { useLocalSearchParams } from "expo-router";
 
 export default function CompareScreen() {
   useAuthGuard();
   const { state, setCompareResult } = useAnalysis();
+  const params = useLocalSearchParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { width } = useWindowDimensions();
@@ -15,26 +17,69 @@ export default function CompareScreen() {
   const [showExplain, setShowExplain] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [localHuman, setLocalHuman] = useState<any | null>(null);
+  const [localMeta, setLocalMeta] = useState<{ description: string; category: string; type: string; sector?: string } | null>(null);
+  const [localCompareResult, setLocalCompareResult] = useState<any | null>(null);
+  const normalizeClassification = (v?: string): "Faible" | "Modéré" | "Élevé" | undefined => {
+    if (!v) return undefined;
+    const s = v.toLowerCase();
+    if (s.includes("eleve") || s.includes("élev")) return "Élevé";
+    if (s.includes("moyen") || s.includes("mod")) return "Modéré";
+    return "Faible";
+  };
 
   useEffect(() => {
     (async () => {
       try {
-        if (!state.userResult || !state.description || !state.category || !state.type) {
-          setError("Analyse utilisateur introuvable");
+        // Source 1: Query params (autonome)
+        const pDesc = (params.description as string) || undefined;
+        const pCat = (params.category as string) || undefined;
+        const pType = (params.type as string) || undefined;
+        const pSector = (params.sector as string) || undefined;
+        const pG = params.user_G !== undefined ? Number(params.user_G) : undefined;
+        const pF = params.user_F !== undefined ? Number(params.user_F) : undefined;
+        const pP = params.user_P !== undefined ? Number(params.user_P) : undefined;
+        const pClass = normalizeClassification(params.user_classification as string);
+
+        if (pDesc && pCat && pType && pG !== undefined && pF !== undefined && pP !== undefined) {
+          setLocalHuman({ G: pG, F: pF, P: pP, classification: pClass ?? "" , score: Math.round(((pG*pF*pP)/125)*100)});
+          setLocalMeta({ description: pDesc, category: pCat, type: pType, sector: pSector });
+          const resp = await compareAnalyses({
+            description: pDesc,
+            category: pCat as any,
+            type: pType as any,
+            sector: pSector,
+            user_G: pG,
+            user_F: pF,
+            user_P: pP,
+            user_classification: pClass,
+          });
+          setLocalCompareResult(resp);
+          setCompareResult && setCompareResult(resp);
           return;
         }
-        const r = state.userResult;
-        const resp = await compareAnalyses({
-          description: state.description,
-          category: state.category,
-          type: state.type,
-          sector: state.sector,
-          user_G: r.G,
-          user_F: r.F,
-          user_P: r.P,
-          user_classification: r.classification,
-        });
-        setCompareResult(resp);
+
+        // Source 2: Contexte (flux questionnaire)
+        if (state.userResult && state.description && state.category && state.type) {
+          setLocalHuman(state.userResult);
+          setLocalMeta({ description: state.description, category: state.category, type: state.type, sector: state.sector });
+          const r = state.userResult;
+          const resp = await compareAnalyses({
+            description: state.description,
+            category: state.category as any,
+            type: state.type as any,
+            sector: state.sector,
+            user_G: r.G,
+            user_F: r.F,
+            user_P: r.P,
+            user_classification: normalizeClassification(r.classification),
+          });
+          setLocalCompareResult(resp);
+          setCompareResult && setCompareResult(resp);
+          return;
+        }
+
+        setError("Aucune donnée fournie. Indiquez description, category, type, user_G, user_F, user_P (params) ou passez par le flux d'analyse.");
       } catch (e: any) {
         setError(e?.message || "Analyse IA indisponible");
       } finally {
@@ -45,10 +90,10 @@ export default function CompareScreen() {
 
   if (loading) return <View style={{ flex:1, justifyContent:"center", alignItems:"center", backgroundColor:"#f9fafb"}}><ActivityIndicator size="large" color="#3b82f6" /></View>;
   if (error) return <View style={{ flex:1, justifyContent:"center", alignItems:"center", padding:16, backgroundColor:"#f9fafb" }}><View style={{ padding:20, backgroundColor:"#fee2e2", borderRadius:12, borderWidth:1, borderColor:"#fecaca" }}><Text style={{ color:"#b91c1c", fontSize:16, textAlign:"center" }}>{error}</Text></View></View>;
-  if (!state.compareResult || !state.userResult) return <View style={{ padding:16 }}><Text>Données manquantes</Text></View>;
+  if (!localCompareResult || !localHuman) return <View style={{ padding:16 }}><Text>Données manquantes</Text></View>;
 
-  const human = state.compareResult.human_analysis;
-  const ia = state.compareResult.ia_analysis;
+  const human = localCompareResult.human_analysis;
+  const ia = localCompareResult.ia_analysis;
 
   const same = {
     G: human.G === ia.G,
@@ -59,22 +104,22 @@ export default function CompareScreen() {
   };
 
   const onExport = async () => {
-    if (!state.userResult || !state.description || !state.category || !state.type) {
+    if (!localHuman || !localMeta) {
       setError("Données insuffisantes pour l'export");
       return;
     }
     setExporting(true);
     try {
-      const r = state.userResult;
+      const r = localHuman;
       const payload = {
-        description: state.description,
-        category: state.category,
-        type: state.type,
-        sector: state.sector,
+        description: localMeta.description,
+        category: localMeta.category as any,
+        type: localMeta.type as any,
+        sector: localMeta.sector,
         user_G: r.G,
         user_F: r.F,
         user_P: r.P,
-        user_classification: r.classification,
+        user_classification: normalizeClassification(r.classification),
       } as any;
       const { data, filename } = await exportCompareReport(payload);
       if (Platform.OS === "web" && typeof window !== "undefined") {

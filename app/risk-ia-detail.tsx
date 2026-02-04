@@ -33,7 +33,13 @@ export default function RiskIADetailScreen() {
   const params = useLocalSearchParams();
   const riskId = params.riskId as string;
   const projectId = params.projectId as string;
-  const comparisonData = JSON.parse(params.comparisonData as string);
+  let comparisonData: any = null;
+  try {
+    comparisonData = params.comparisonData ? JSON.parse(params.comparisonData as string) : null;
+  } catch (e) {
+    comparisonData = null;
+  }
+  const to100 = (raw: number) => Math.round((raw / 125) * 100);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -88,9 +94,16 @@ export default function RiskIADetailScreen() {
     );
   }
 
-  const humanAnalysis = comparisonData.human_analysis;
-  const iaAnalysis = comparisonData.ia_analysis;
-  const comparison = comparisonData.comparison;
+  // Fallback si certaines données manquent
+  const humanAnalysis = comparisonData?.human_analysis || (risk?.initial_evaluation ? {
+    G: risk.initial_evaluation.G,
+    F: risk.initial_evaluation.F,
+    P: risk.initial_evaluation.P,
+    score: risk.initial_evaluation.score,
+    classification: (risk.initial_evaluation.level || risk.initial_evaluation.classification || "")
+  } : null);
+  const iaAnalysis = comparisonData?.ia_analysis || null;
+  const comparison = comparisonData?.comparison || { agreement_level: "", analysis: "" };
 
   const agreementColor = 
     comparison.agreement_level === "Élevé" ? "#10b981" :
@@ -160,7 +173,7 @@ export default function RiskIADetailScreen() {
             </View>
             <View style={{ marginTop: 8 }}>
               <Text style={{ fontSize: 12, color: "#6b7280", marginBottom: 4 }}>Score global</Text>
-              <ScorePill score={humanAnalysis.score} />
+              <ScorePill score={typeof humanAnalysis.score === 'number' && humanAnalysis.score <= 100 ? humanAnalysis.score : to100(humanAnalysis.score)} />
             </View>
             <View style={{ marginTop: 8 }}>
               <Badge label={humanAnalysis.classification} {...classBadge(humanAnalysis.classification)} />
@@ -186,7 +199,7 @@ export default function RiskIADetailScreen() {
             </View>
             <View style={{ marginTop: 8 }}>
               <Text style={{ fontSize: 12, color: "#6b7280", marginBottom: 4 }}>Score global</Text>
-              <ScorePill score={iaAnalysis.score} />
+              <ScorePill score={typeof iaAnalysis.score === 'number' && iaAnalysis.score <= 100 ? iaAnalysis.score : to100(iaAnalysis.score)} />
             </View>
             <View style={{ marginTop: 8 }}>
               <Badge label={iaAnalysis.classification} {...classBadge(iaAnalysis.classification)} />

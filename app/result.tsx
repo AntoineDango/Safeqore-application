@@ -72,6 +72,7 @@ export default function ResultScreen() {
   if (!result) return <View style={{ padding: 16 }}><Text>Pas de résultat</Text></View>;
 
   const r = result;
+  const to100 = (raw: number) => Math.round((raw / 125) * 100);
   const labelMap: Record<string, "Faible" | "Modéré" | "Élevé"> = {
     Faible: "Faible",
     Modéré: "Modéré",
@@ -81,6 +82,7 @@ export default function ResultScreen() {
   const cls = labelMap[(r.classification as unknown as string)] || "Modéré";
   const color = cls === "Élevé" ? "#ef4444" : cls === "Modéré" ? "#f59e0b" : "#10b981";
   const R = r.G * r.F * r.P;
+  const R100 = to100(R);
 
   const handleContinue = () => {
     if (isProjectMode) {
@@ -115,7 +117,7 @@ export default function ResultScreen() {
       </View>
 
       <View style={{ marginTop: 16, padding: 12, borderRadius: 8, backgroundColor: "#f9fafb" }}>
-        <Text>G: {r.G}   F: {r.F}   P: {r.P}   Score estimé: {R}</Text>
+        <Text>G: {r.G}   F: {r.F}   P: {r.P}   Score estimé: {R100}/100</Text>
       </View>
 
       {!isProjectMode && (
@@ -131,7 +133,7 @@ export default function ResultScreen() {
             onPress={() => router.push("/compare")}
             style={{ marginTop: 24, padding: 14, borderRadius: 8, backgroundColor: "#2563eb", alignItems: "center" }}
           >
-            <Text style={{ color: "white", fontWeight: "600" }}>Voir l'analyse IA & comparaison</Text>
+            <Text style={{ color: "white", fontWeight: "600" }}>Comparer Humain / IA</Text>
           </Pressable>
 
           {r.classification !== "Faible" && (

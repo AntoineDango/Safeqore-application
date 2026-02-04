@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Pressable, ScrollView, ActivityIndicator, Alert, TextInput, Modal } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
+import { Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useAuthGuard } from "../lib/guard";
-import { getProject, deleteProject, duplicateProject, updateProject, analyzeProjectWithIA } from "../lib/api";
-import { generateProjectExcel, generateComparativeExcel } from "../lib/excelExport";
+import { getProject, deleteProject, duplicateProject, updateProject, analyzeProjectWithIA, listProjects } from "../lib/api";
+import { generateProjectExcelAdvanced, generateComparativeExcelAdvanced } from "../lib/excelExportAdvanced";
 import type { AnalysisProject, CompareResponse } from "../lib/types";
 
 export default function SavedProjectViewScreen() {
+  const to100 = (raw: number) => Math.round((raw / 125) * 100);
   const { loading: authLoading, authenticated } = useAuthGuard();
   const params = useLocalSearchParams();
   const projectId = params.projectId as string;
@@ -56,7 +58,7 @@ export default function SavedProjectViewScreen() {
             try {
               await deleteProject(projectId);
               Alert.alert("Succès", "Projet supprimé", [
-                { text: "OK", onPress: () => router.replace("/(tabs)") }
+                { text: "OK", onPress: () => { const isMobile = Platform.OS === "ios" || Platform.OS === "android"; router.replace(isMobile ? "/(tabs)" : "/dashboard"); } }
               ]);
             } catch (e: any) {
               Alert.alert("Erreur", e?.message || "Impossible de supprimer le projet");
@@ -72,7 +74,7 @@ export default function SavedProjectViewScreen() {
     if (!project) return;
     setExporting(true);
     try {
-      await generateProjectExcel(project);
+      await generateProjectExcelAdvanced(project);
       Alert.alert("Succès", "Le rapport Excel a été généré avec succès");
     } catch (e: any) {
       Alert.alert("Erreur", e?.message || "Impossible d'exporter le rapport");
@@ -135,29 +137,22 @@ export default function SavedProjectViewScreen() {
     
     // Si c'est déjà une copie éditable → ouvrir le modal de modification
     if (isEditableCopy(project.analysis_title)) {
-      setEditTitle(project.analysis_title);
-      setEditDescription(project.project_description);
-      setShowEditModal(true);
+      router.replace({ pathname: "/project-full-edit", params: { projectId } });
       return;
     }
     
-    // Si c'est un projet original → dupliquer d'abord
+    // Si c'est un projet original → rediriger vers _v2 s'il existe, sinon dupliquer puis rediriger (sans toast)
     setDuplicating(true);
     try {
       const newTitle = `${project.analysis_title}_v2`;
+      const list = await listProjects(100, 0);
+      const existing = (list as any).items?.find((p: any) => p.analysis_title === newTitle);
+      if (existing) {
+        router.replace({ pathname: "/project-full-edit", params: { projectId: existing.id } });
+        return;
+      }
       const duplicated = await duplicateProject(projectId, newTitle);
-      
-      Alert.alert(
-        "Projet dupliqué pour modification",
-        `Un nouveau projet "${duplicated.analysis_title}" a été créé. Vous pouvez maintenant le modifier.`,
-        [
-          { text: "Rester ici", style: "cancel" },
-          { 
-            text: "Ouvrir le nouveau projet", 
-            onPress: () => router.replace({ pathname: "/saved-project-view", params: { projectId: duplicated.id } })
-          }
-        ]
-      );
+      router.replace({ pathname: "/project-full-edit", params: { projectId: duplicated.id } });
     } catch (e: any) {
       Alert.alert("Erreur", e?.message || "Impossible de dupliquer le projet");
     } finally {
@@ -225,7 +220,7 @@ export default function SavedProjectViewScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f9fafb" }}>
       {/* Header */}
       <View style={{ flexDirection: "row", alignItems: "center", padding: 16, gap: 12, borderBottomWidth: 1, borderBottomColor: "#e5e7eb", backgroundColor: "#fff" }}>
-        <Pressable onPress={() => router.replace("/(tabs)")} style={{ padding: 8, borderRadius: 12, backgroundColor: "#f3f4f6" }}>
+        <Pressable onPress={() => { const isMobile = Platform.OS === "ios" || Platform.OS === "android"; router.replace(isMobile ? "/(tabs)" : "/dashboard"); }} style={{ padding: 8, borderRadius: 12, backgroundColor: "#f3f4f6" }}>
           <Ionicons name="arrow-back" size={24} color="#374151" />
         </Pressable>
         <View style={{ flex: 1 }}>
@@ -355,7 +350,7 @@ export default function SavedProjectViewScreen() {
                         <Text style={{ fontSize: 12, color: "#374151" }}>G: {risk.initial_evaluation.G}</Text>
                         <Text style={{ fontSize: 12, color: "#374151" }}>F: {risk.initial_evaluation.F}</Text>
                         <Text style={{ fontSize: 12, color: "#374151" }}>P: {risk.initial_evaluation.P}</Text>
-                        <Text style={{ fontSize: 12, fontWeight: "700", color: "#111827" }}>Score: {risk.initial_evaluation.score}</Text>
+                        <Text style={{ fontSize: 12, fontWeight: "700", color: "#111827" }}>Score: {to100(risk.initial_evaluation.score)}/100</Text>
                       </View>
                     </View>
 
@@ -378,15 +373,15 @@ export default function SavedProjectViewScreen() {
                             <Text style={{ fontSize: 12, color: residualColors!.color }}>G: {risk.residual_evaluation!.G}</Text>
                             <Text style={{ fontSize: 12, color: residualColors!.color }}>F: {risk.residual_evaluation!.F}</Text>
                             <Text style={{ fontSize: 12, color: residualColors!.color }}>P: {risk.residual_evaluation!.P}</Text>
-                            <Text style={{ fontSize: 12, fontWeight: "700", color: residualColors!.color }}>Score: {risk.residual_evaluation!.score}</Text>
+                            <Text style={{ fontSize: 12, fontWeight: "700", color: residualColors!.color }}>Score: {to100(risk.residual_evaluation!.score)}/100</Text>
                           </View>
                         </View>
 
-                        {risk.residual_evaluation!.score < risk.initial_evaluation.score && (
+                        {to100(risk.residual_evaluation!.score) < to100(risk.initial_evaluation.score) && (
                           <View style={{ marginTop: 8, flexDirection: "row", alignItems: "center", gap: 4 }}>
                             <Ionicons name="trending-down" size={16} color="#10b981" />
                             <Text style={{ fontSize: 12, color: "#10b981", fontWeight: "600" }}>
-                              Réduction : -{risk.initial_evaluation.score - risk.residual_evaluation!.score} points
+                              Réduction : -{to100(risk.initial_evaluation.score) - to100(risk.residual_evaluation!.score)} points
                             </Text>
                           </View>
                         )}
@@ -452,13 +447,13 @@ export default function SavedProjectViewScreen() {
                   <View style={{ flexDirection: "row", gap: 12, marginBottom: 8 }}>
                     <View style={{ flex: 1 }}>
                       <Text style={{ fontSize: 12, fontWeight: "600", color: "#6b7280", marginBottom: 4 }}>Votre analyse</Text>
-                      <Text style={{ fontSize: 12, color: "#374151" }}>Score: {comp.human_analysis.score}</Text>
+                      <Text style={{ fontSize: 12, color: "#374151" }}>Score: {to100(comp.human_analysis.score)}/100</Text>
                       <Text style={{ fontSize: 12, color: "#374151" }}>Classe: {comp.human_analysis.classification}</Text>
                     </View>
 
                     <View style={{ flex: 1 }}>
                       <Text style={{ fontSize: 12, fontWeight: "600", color: "#6b7280", marginBottom: 4 }}>Analyse IA</Text>
-                      <Text style={{ fontSize: 12, color: "#374151" }}>Score: {comp.ia_analysis.score}</Text>
+                      <Text style={{ fontSize: 12, color: "#374151" }}>Score: {to100(comp.ia_analysis.score)}/100</Text>
                       <Text style={{ fontSize: 12, color: "#374151" }}>Classe: {comp.ia_analysis.classification}</Text>
                     </View>
                   </View>
@@ -493,7 +488,7 @@ export default function SavedProjectViewScreen() {
                     return { risk, comparison };
                   });
                   
-                  await generateComparativeExcel(project, iaComparisons);
+                  await generateComparativeExcelAdvanced(project, iaComparisons);
                   Alert.alert("Succès", "Le rapport Excel comparatif a été téléchargé");
                 } catch (e: any) {
                   Alert.alert("Erreur", "Impossible de générer le rapport Excel");
@@ -516,6 +511,41 @@ export default function SavedProjectViewScreen() {
 
         {/* Actions */}
         <View style={{ gap: 12, marginBottom: 20 }}>
+          {/* Comparer Humain / IA */}
+          <Pressable
+            onPress={() => {
+              if (!project || !project.risks || project.risks.length === 0) {
+                Alert.alert("Information", "Aucun risque disponible pour comparer");
+                return;
+              }
+              const r = project.risks[0];
+              const ie = r.initial_evaluation;
+              router.push({
+                pathname: "/compare",
+                params: {
+                  description: r.description,
+                  category: r.category,
+                  type: r.type,
+                  sector: project.sector || "",
+                  user_G: String(ie.G),
+                  user_F: String(ie.F),
+                  user_P: String(ie.P),
+                  user_classification: String(ie.level || "")
+                }
+              });
+            }}
+            style={{ borderRadius: 12, overflow: "hidden" }}
+          >
+            <LinearGradient
+              colors={["#2563EB", "#1D4ED8"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ paddingVertical: 16, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 8 }}
+            >
+              <Ionicons name="git-compare" size={20} color="#fff" />
+              <Text style={{ color: "white", fontWeight: "700", fontSize: 16 }}>Comparer Humain / IA</Text>
+            </LinearGradient>
+          </Pressable>
           {/* Exporter en Excel */}
           <Pressable
             onPress={handleExportExcel}
@@ -542,11 +572,11 @@ export default function SavedProjectViewScreen() {
           {/* Lancer analyse IA */}
           <Pressable
             onPress={handleAnalyzeWithIA}
-            disabled={analyzingIA || !allRisksComplete}
+            disabled={analyzingIA}
             style={{ borderRadius: 12, overflow: "hidden" }}
           >
             <LinearGradient
-              colors={!allRisksComplete ? ["#9ca3af", "#6b7280"] : ["#7C3AED", "#2563EB"]}
+              colors={["#7C3AED", "#2563EB"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={{ paddingVertical: 16, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 8 }}
@@ -562,11 +592,7 @@ export default function SavedProjectViewScreen() {
             </LinearGradient>
           </Pressable>
 
-          {!allRisksComplete && (
-            <Text style={{ fontSize: 12, color: "#f59e0b", textAlign: "center" }}>
-              ⚠️ Tous les risques doivent avoir une mesure de contournement et une évaluation résiduelle pour lancer l'analyse IA
-            </Text>
-          )}
+          
 
           {/* Modifier le projet (logique intelligente) */}
           <Pressable
@@ -598,7 +624,7 @@ export default function SavedProjectViewScreen() {
 
           {/* Retour au dashboard */}
           <Pressable
-            onPress={() => router.replace("/(tabs)")}
+            onPress={() => { const isMobile = Platform.OS === "ios" || Platform.OS === "android"; router.replace(isMobile ? "/(tabs)" : "/dashboard"); }}
             style={{
               padding: 14,
               borderRadius: 12,
@@ -613,31 +639,7 @@ export default function SavedProjectViewScreen() {
             <Text style={{ fontWeight: "700", color: "#374151" }}>Retour au dashboard</Text>
           </Pressable>
 
-          {/* Supprimer */}
-          <Pressable
-            onPress={handleDelete}
-            disabled={deleting}
-            style={{
-              padding: 14,
-              borderRadius: 12,
-              backgroundColor: "#fee2e2",
-              borderWidth: 1,
-              borderColor: "#fecaca",
-              alignItems: "center",
-              flexDirection: "row",
-              justifyContent: "center",
-              gap: 8,
-            }}
-          >
-            {deleting ? (
-              <ActivityIndicator color="#dc2626" />
-            ) : (
-              <>
-                <Ionicons name="trash" size={20} color="#dc2626" />
-                <Text style={{ fontWeight: "700", color: "#dc2626" }}>Supprimer ce projet</Text>
-              </>
-            )}
-          </Pressable>
+          
         </View>
       </ScrollView>
 

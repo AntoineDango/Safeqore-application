@@ -91,8 +91,11 @@ export default function MeasuresScreen() {
     })();
   }, [state.sector]);
 
-  const classify = (score: number): "Faible" | "Modéré" | "Élevé" =>
-    score <= 25 ? "Faible" : score <= 50 ? "Modéré" : "Élevé";
+  // Normalize raw score (G*F*P, max 125) to 0..100
+  const to100 = (raw: number) => Math.round((raw / 125) * 100);
+  // Thresholds mapped to 0..100: 25/125=20, 50/125=40
+  const classify = (score100: number): "Faible" | "Modéré" | "Élevé" =>
+    score100 <= 20 ? "Faible" : score100 <= 40 ? "Modéré" : "Élevé";
 
   const orig = useMemo(() => ({
     G: state.userResult?.G || 1,
@@ -166,7 +169,8 @@ export default function MeasuresScreen() {
     const pVal = imp.P ? computeDimValue("P", ans.P) : orig.P;
     if ((imp.G && !gVal) || (imp.F && !fVal) || (imp.P && !pVal)) return null;
     const G = gVal as number; const F = fVal as number; const P = pVal as number;
-    const score = G * F * P;
+    const scoreRaw = G * F * P;
+    const score = to100(scoreRaw);
     return { G, F, P, score, classification: classify(score) };
   };
 
@@ -363,10 +367,10 @@ export default function MeasuresScreen() {
                 {res && (
                   <View style={{ marginTop:8 }}>
                     <Text style={{ color:"#374151" }}>
-                      Avant: G{orig.G} F{orig.F} P{orig.P} — Score {orig.G * orig.F * orig.P}
+                      Avant: G{orig.G} F{orig.F} P{orig.P} — Score {to100(orig.G * orig.F * orig.P)}/100
                     </Text>
                     <Text style={{ color:"#374151" }}>
-                      Après: G{res.G} F{res.F} P{res.P} — Score {res.score} → {res.classification}
+                      Après: G{res.G} F{res.F} P{res.P} — Score {res.score}/100 → {res.classification}
                     </Text>
                   </View>
                 )}
@@ -390,7 +394,7 @@ export default function MeasuresScreen() {
       {finalResult && (
         <View style={{ marginTop:16, padding:12, borderRadius:8, backgroundColor:"#f9fafb", borderWidth:1, borderColor:"#e5e7eb" }}>
           <Text style={{ fontWeight:"700" }}>Nouvelle estimation (après mesures)</Text>
-          <Text style={{ marginTop:4 }}>G: {finalResult.G}   F: {finalResult.F}   P: {finalResult.P}   Score: {finalResult.score}</Text>
+          <Text style={{ marginTop:4 }}>G: {finalResult.G}   F: {finalResult.F}   P: {finalResult.P}   Score: {finalResult.score}/100</Text>
           <Text style={{ marginTop:2 }}>Classification: {finalResult.classification}</Text>
         </View>
       )}

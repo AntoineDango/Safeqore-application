@@ -35,6 +35,13 @@ export default function ProjectMeasuresScreen() {
 
   const currentRisk = state.risks[currentRiskIndex];
   const completedCount = state.risks.filter(r => r.residualResult).length;
+  const to100 = (raw: number) => Math.round((raw / 125) * 100);
+  const needsMeasure = (() => {
+    const ur = currentRisk?.userResult;
+    if (!ur) return false;
+    const score100 = to100((ur.G || 0) * (ur.F || 0) * (ur.P || 0));
+    return score100 > 20; // Medium/High
+  })();
 
   const saveProject = async () => {
     setEvaluating(true);
@@ -110,7 +117,7 @@ export default function ProjectMeasuresScreen() {
   };
 
   const handleStartEvaluation = async () => {
-    if (mitigation.trim().length < 10) {
+    if (needsMeasure && mitigation.trim().length < 10) {
       Alert.alert("Attention", "La mesure doit contenir au moins 10 caractères.");
       return;
     }
@@ -300,9 +307,9 @@ export default function ProjectMeasuresScreen() {
                 <Text style={{ fontSize: 18, fontWeight: "800", color: "#111827" }}>{currentRisk.userResult?.P}</Text>
               </View>
               <View>
-                <Text style={{ fontSize: 10, color: "#6b7280" }}>Score (R)</Text>
+                <Text style={{ fontSize: 10, color: "#6b7280" }}>Score</Text>
                 <Text style={{ fontSize: 18, fontWeight: "800", color: "#111827" }}>
-                  {(currentRisk.userResult?.G || 0) * (currentRisk.userResult?.F || 0) * (currentRisk.userResult?.P || 0)}
+                  {to100((currentRisk.userResult?.G || 0) * (currentRisk.userResult?.F || 0) * (currentRisk.userResult?.P || 0))}/100
                 </Text>
               </View>
             </View>
@@ -311,27 +318,28 @@ export default function ProjectMeasuresScreen() {
           {/* Recommandations selon le score */}
           {(() => {
             const score = (currentRisk.userResult?.G || 0) * (currentRisk.userResult?.F || 0) * (currentRisk.userResult?.P || 0);
+            const score100 = to100(score);
             let level = "";
             let recommendation = "";
             let recColor = "#10b981";
             let recBg = "#d1fae5";
             let recIcon: "time-outline" | "warning-outline" | "alert-circle" = "time-outline";
 
-            if (score <= 25) {
+            if (score100 <= 20) {
               level = "Faible";
-              recommendation = `${level} (R = ${score}) : mesure à prendre à long terme`;
+              recommendation = `${level} (Score = ${score100}/100) : mesure facultative`;
               recColor = "#10b981";
               recBg = "#d1fae5";
               recIcon = "time-outline";
-            } else if (score <= 50) {
+            } else if (score100 <= 40) {
               level = "Moyen";
-              recommendation = `${level} (R = ${score}) : attention requise, prendre des mesures à court et moyen terme`;
+              recommendation = `${level} (Score = ${score100}/100) : mesures requises à court/moyen terme`;
               recColor = "#f59e0b";
               recBg = "#fef3c7";
               recIcon = "warning-outline";
             } else {
               level = "Élevé";
-              recommendation = `${level} (R = ${score}) : prendre des mesures immédiates`;
+              recommendation = `${level} (Score = ${score100}/100) : prendre des mesures immédiates`;
               recColor = "#ef4444";
               recBg = "#fee2e2";
               recIcon = "alert-circle";
@@ -368,9 +376,9 @@ export default function ProjectMeasuresScreen() {
                     <Text style={{ fontSize: 18, fontWeight: "800", color: "#065f46" }}>{currentRisk.residualResult.P}</Text>
                   </View>
                   <View>
-                    <Text style={{ fontSize: 10, color: "#166534" }}>Score (R)</Text>
+                    <Text style={{ fontSize: 10, color: "#166534" }}>Score</Text>
                     <Text style={{ fontSize: 18, fontWeight: "800", color: "#065f46" }}>
-                      {(currentRisk.residualResult.G || 0) * (currentRisk.residualResult.F || 0) * (currentRisk.residualResult.P || 0)}
+                      {to100((currentRisk.residualResult.G || 0) * (currentRisk.residualResult.F || 0) * (currentRisk.residualResult.P || 0))}/100
                     </Text>
                   </View>
                 </View>
@@ -380,8 +388,10 @@ export default function ProjectMeasuresScreen() {
               {(() => {
                 const initialScore = (currentRisk.userResult?.G || 0) * (currentRisk.userResult?.F || 0) * (currentRisk.userResult?.P || 0);
                 const residualScore = (currentRisk.residualResult.G || 0) * (currentRisk.residualResult.F || 0) * (currentRisk.residualResult.P || 0);
-                const reduction = initialScore - residualScore;
-                const reductionPercent = initialScore > 0 ? Math.round((reduction / initialScore) * 100) : 0;
+                const initial100 = to100(initialScore);
+                const residual100 = to100(residualScore);
+                const reduction = initial100 - residual100;
+                const reductionPercent = initial100 > 0 ? Math.round((reduction / initial100) * 100) : 0;
 
                 return (
                   <View style={{ marginTop: 12, padding: 12, borderRadius: 8, backgroundColor: "#eff6ff", borderLeftWidth: 4, borderLeftColor: "#3b82f6" }}>
@@ -411,7 +421,7 @@ export default function ProjectMeasuresScreen() {
         {/* Mesure de contournement */}
         <View style={{ marginBottom: 16 }}>
           <Text style={{ fontSize: 16, fontWeight: "700", color: "#111827", marginBottom: 8 }}>
-            Solution de contournement / Mesure <Text style={{ color: "#ef4444" }}>*</Text>
+            Solution de contournement / Mesure {needsMeasure ? <Text style={{ color: "#ef4444" }}>*</Text> : <Text style={{ color: "#6b7280" }}>(facultatif si risque faible)</Text>}
           </Text>
           <Text style={{ fontSize: 14, color: "#6b7280", marginBottom: 8 }}>
             Proposez une mesure pour réduire ou éliminer ce risque
@@ -424,17 +434,24 @@ export default function ProjectMeasuresScreen() {
             numberOfLines={4}
             style={{
               borderWidth: 1,
-              borderColor: "#d1d5db",
+              borderColor: needsMeasure ? "#d1d5db" : "#e5e7eb",
               borderRadius: 12,
               padding: 12,
-              backgroundColor: "#fff",
+              backgroundColor: needsMeasure ? "#fff" : "#f9fafb",
               minHeight: 100,
               textAlignVertical: "top",
             }}
+            editable={needsMeasure}
           />
-          <Text style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>
-            {mitigation.length}/500 caractères (min. 10)
-          </Text>
+          {needsMeasure ? (
+            <Text style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>
+              {mitigation.length}/500 caractères (min. 10)
+            </Text>
+          ) : (
+            <Text style={{ fontSize: 12, color: "#6b7280", marginTop: 4 }}>
+              Mesure facultative (risque faible)
+            </Text>
+          )}
         </View>
 
         {/* Boutons */}
@@ -443,11 +460,11 @@ export default function ProjectMeasuresScreen() {
           {!currentRisk.residualResult && (
             <Pressable
               onPress={handleStartEvaluation}
-              disabled={mitigation.trim().length < 10 || loading || evaluating}
+              disabled={(needsMeasure && mitigation.trim().length < 10) || loading || evaluating}
               style={{ borderRadius: 12, overflow: "hidden" }}
             >
               <LinearGradient
-                colors={mitigation.trim().length >= 10 && !loading && !evaluating ? ["#10b981", "#059669"] : ["#9ca3af", "#6b7280"]}
+                colors={(!needsMeasure || (mitigation.trim().length >= 10)) && !loading && !evaluating ? ["#10b981", "#059669"] : ["#9ca3af", "#6b7280"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={{ paddingVertical: 16, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 8 }}
@@ -462,6 +479,26 @@ export default function ProjectMeasuresScreen() {
                     </Text>
                   </>
                 )}
+              </LinearGradient>
+            </Pressable>
+          )}
+
+          {/* Bouton Passer au suivant si risque faible (mesure facultative) et pas de résiduel */}
+          {!needsMeasure && !currentRisk.residualResult && (
+            <Pressable
+              onPress={handleSkip}
+              style={{ borderRadius: 12, overflow: "hidden" }}
+            >
+              <LinearGradient
+                colors={["#e5e7eb", "#d1d5db"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{ paddingVertical: 14, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 8 }}
+              >
+                <Ionicons name="arrow-forward" size={18} color="#374151" />
+                <Text style={{ color: "#374151", fontWeight: "700", fontSize: 15 }}>
+                  Passer au suivant
+                </Text>
               </LinearGradient>
             </Pressable>
           )}
