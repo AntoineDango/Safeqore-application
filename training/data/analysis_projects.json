@@ -5169,5 +5169,45 @@
     "created_at": "2026-02-03T01:27:28.522327",
     "updated_at": "2026-02-03T01:27:28.522380",
     "status": "draft"
+  },
+  {
+    "id": "test-no-mitigation-001",
+    "user_uid": "test-user",
+    "analysis_title": "Test IA sans mitigation",
+    "description": "Projet de test pour vérifier l'analyse IA sans mesures de mitigation",
+    "sector": "Informatique",
+    "status": "draft",
+    "created_at": "2026-02-15T00:25:30.743892",
+    "updated_at": "2026-02-15T00:25:30.743929",
+    "risks": [
+      {
+        "id": "risk-001",
+        "description": "Risque de sécurité informatique sans mesures de mitigation",
+        "category": "Sécurité",
+        "type": "Accès non autorisé",
+        "initial_evaluation": {
+          "G": 4,
+          "F": 3,
+          "P": 4,
+          "score": 48,
+          "level": "Élevé"
+        },
+        "created_at": "2026-02-15T00:25:30.743943"
+      },
+      {
+        "id": "risk-002",
+        "description": "Risque opérationnel sans mesures de mitigation",
+        "category": "Opérationnel",
+        "type": "Panne système",
+        "initial_evaluation": {
+          "G": 3,
+          "F": 2,
+          "P": 3,
+          "score": 18,
+          "level": "Faible"
+        },
+        "created_at": "2026-02-15T00:25:30.743956"
+      }
+    ]
   }
 ]

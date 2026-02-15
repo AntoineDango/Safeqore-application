@@ -66,6 +66,40 @@ def _calculate_risk_level(score: int) -> RiskLevel:
     return "Élevé"
 
 
+def _is_low_risk(initial_eval: dict | None) -> bool:
+    """Retourne True si l'évaluation initiale correspond à un risque faible.
+    Règles (OR):
+      - level == "Faible"
+      - score brut (G*F*P) <= 25
+      - normalized_score_100 <= 20 (si présent)
+    """
+    if not initial_eval:
+        return False
+    level = initial_eval.get("level")
+    if level == "Faible":
+        return True
+    # Normalized threshold
+    try:
+        norm100 = initial_eval.get("normalized_score_100")
+        if norm100 is not None and float(norm100) <= 20:
+            return True
+    except Exception:
+        pass
+    # Raw score or recompute from G,F,P
+    score = initial_eval.get("score")
+    try:
+        if score is None:
+            g = int(initial_eval.get("G", 0))
+            f = int(initial_eval.get("F", 0))
+            p = int(initial_eval.get("P", 0))
+            score = g * f * p
+        else:
+            score = int(score)
+    except Exception:
+        score = 0
+    return score <= 25
+
+
 def _generate_project_id() -> str:
     """Génère un ID unique pour un projet"""
     return f"PROJ_{datetime.now().strftime('%Y%m%d%H%M%S')}_{len(_load_projects())}"
@@ -138,7 +172,8 @@ async def list_projects(
     summaries = []
     for p in paginated:
         risks = p.get("risks", [])
-        completed_risks = sum(1 for r in risks if r.get("residual_evaluation") is not None)
+        # Nouvelle règle: considérer tous les risques comme traités pour l'avancement
+        completed_risks = len(risks)
         
         summaries.append(ProjectSummary(
             id=p["id"],
@@ -228,6 +263,9 @@ async def add_risk_to_project(
     
     project["risks"].append(risk)
     project["updated_at"] = datetime.now().isoformat()
+    # Nouvelle règle: projet complété dès qu'il a >= 4 risques
+    if len(project["risks"]) >= 4:
+        project["status"] = "completed"
     
     _save_projects(projects)
     
@@ -277,9 +315,8 @@ async def update_risk_mitigation(
     
     project["updated_at"] = datetime.now().isoformat()
     
-    # Vérifier si tous les risques sont complétés
-    all_completed = all(r.get("residual_evaluation") is not None for r in project["risks"])
-    if all_completed and len(project["risks"]) >= 4:
+    # Nouvelle règle: projet complété dès qu'il a >= 4 risques
+    if len(project["risks"]) >= 4:
         project["status"] = "completed"
     
     _save_projects(projects)
@@ -475,11 +512,9 @@ async def duplicate_project(
         
         new_project["risks"].append(new_risk)
     
-    # Mettre à jour le statut si tous les risques sont complétés
+    # Nouvelle règle: statut complété si le projet a >= 4 risques
     if len(new_project["risks"]) >= 4:
-        all_completed = all(r.get("residual_evaluation") is not None for r in new_project["risks"])
-        if all_completed:
-            new_project["status"] = "completed"
+        new_project["status"] = "completed"
     
     projects.append(new_project)
     _save_projects(projects)
@@ -514,17 +549,20 @@ async def analyze_project_with_ia(
     if len(risks) == 0:
         raise HTTPException(status_code=400, detail="Le projet ne contient aucun risque")
     
-    # Validation : tous les risques doivent avoir une mesure et une évaluation résiduelle
-    incomplete_risks = [
-        r for r in risks 
-        if not r.get("mitigation_measure") or not r.get("residual_evaluation")
-    ]
+    # Vérifications supprimées - l'analyse IA est maintenant autorisée pour tous les risques
+    # ayant une évaluation initiale, indépendamment des mesures de mitigation
     
-    if incomplete_risks:
-        raise HTTPException(
-            status_code=400, 
-            detail=f"{len(incomplete_risks)} risque(s) n'ont pas de mesure de contournement et d'évaluation résiduelle"
-        )
+    # Statistiques de debug uniquement (pas de blocage)
+    debug_counts = {"total": len(risks), "with_mitigation": 0, "without_mitigation": 0}
+    for r in risks:
+        has_mitigation = bool(r.get("mitigation_measure") and r.get("residual_evaluation"))
+        if has_mitigation:
+            debug_counts["with_mitigation"] += 1
+        else:
+            debug_counts["without_mitigation"] += 1
+    
+    print(f"[ProjectRouter] IA analysis for {project_id}: {debug_counts}")
+    print(f"[ProjectRouter] ✅ IA analysis ALLOWED for all projects with initial evaluations")
     
     # Lancer l'analyse IA pour chaque risque
     comparisons = []

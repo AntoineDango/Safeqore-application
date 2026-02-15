@@ -19,6 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 TRAINING_DATA_DIR = os.path.join(BASE_DIR, "training", "data")
 ANALYSES_FILE = os.path.join(TRAINING_DATA_DIR, "questionnaire_analyses.json")
 PROFILES_FILE = os.path.join(TRAINING_DATA_DIR, "user_profiles.json")
+PROJECTS_FILE = os.path.join(TRAINING_DATA_DIR, "analysis_projects.json")
 
 def _load_analyses() -> List[dict]:
     if os.path.exists(ANALYSES_FILE):
@@ -53,6 +54,41 @@ def _save_profiles(data: List[dict]) -> None:
     os.makedirs(TRAINING_DATA_DIR, exist_ok=True)
     with open(PROFILES_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+def _load_projects() -> List[dict]:
+    """Charge les projets analysés (pour mapper une analyse utilisateur à un projet)."""
+    if os.path.exists(PROJECTS_FILE):
+        try:
+            with open(PROJECTS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return []
+    return []
+
+
+def _find_project_id_for_analysis(user_uid: str, analysis: dict, projects: List[dict]) -> Optional[str]:
+    """Essaie de retrouver le projet contenant un risque correspondant à l'analyse donnée.
+    Correspondance stricte: même utilisateur, et un risque avec description/category/type et G,F,P identiques.
+    """
+    try:
+        for p in projects:
+            if p.get("user_uid") != user_uid:
+                continue
+            for r in p.get("risks", []):
+                ie = r.get("initial_evaluation") or {}
+                if (
+                    r.get("description") == analysis.get("description")
+                    and r.get("category") == analysis.get("category")
+                    and r.get("type") == analysis.get("type")
+                    and int(ie.get("G", -1)) == int(analysis.get("G", -2))
+                    and int(ie.get("F", -1)) == int(analysis.get("F", -2))
+                    and int(ie.get("P", -1)) == int(analysis.get("P", -2))
+                ):
+                    return p.get("id")
+    except Exception:
+        return None
+    return None
 
 
 class UserAnalyzeRequest(BaseModel):
@@ -147,8 +183,9 @@ async def list_user_analyses(
     user_uid = current_user["uid"]
     print(f"[UserRouter] Listing analyses for user: {user_uid}")
     
-    # Charger toutes les analyses depuis le fichier du questionnaire
+    # Charger analyses et projets (pour enrichissement project_id)
     all_data = _load_analyses()
+    projects = _load_projects()
     
     # Filtrer uniquement les analyses de l'utilisateur connecté
     user_data = [
@@ -160,6 +197,12 @@ async def list_user_analyses(
     
     total = len(user_data)
     paginated = user_data[offset:offset + limit]
+
+    # Enrichir avec project_id quand possible
+    for a in paginated:
+        pid = _find_project_id_for_analysis(user_uid, a, projects)
+        if pid:
+            a["project_id"] = pid
 
     return UserAnalysisListResponse(
         total=total,
@@ -180,12 +223,17 @@ async def get_user_analysis(
     """
     user_uid = current_user["uid"]
     data = _load_analyses()
+    projects = _load_projects()
 
     for analysis in data:
         if analysis.get("id") == analysis_id:
             # Vérifier que l'analyse appartient à l'utilisateur
             if analysis.get("user_uid") != user_uid:
                 raise HTTPException(status_code=403, detail="Accès non autorisé à cette analyse")
+            # Enrichir project_id si possible
+            pid = _find_project_id_for_analysis(user_uid, analysis, projects)
+            if pid:
+                analysis["project_id"] = pid
             return analysis
 
     raise HTTPException(status_code=404, detail=f"Analyse {analysis_id} non trouvée")
