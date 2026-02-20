@@ -58,16 +58,20 @@ class AnalysisDetail(BaseModel):
     classification: str
 
 
-class IAAnalysisDetail(BaseModel):
-    """Détail de l'analyse IA avec causes et recommandations."""
-    G: int
-    F: int
-    P: int
-    score: int
-    classification: str
-    causes: List[str] = Field(default=[], description="Causes racines identifiées")
-    recommendations: List[str] = Field(default=[], description="Recommandations détaillées")
-    justification: Optional[str] = Field(None, description="Justification des valeurs G, F, P")
+class CompareResponse(BaseModel):
+    """Réponse de la comparaison humain vs IA."""
+    description: str = Field(..., description="Description du risque analysé")
+    category: str = Field(..., description="Catégorie")
+    type: str = Field(..., description="Type")
+
+    # Analyse humaine
+    human_analysis: AnalysisDetail = Field(..., description="Analyse réalisée par l'humain")
+
+    # Analyse IA avec causes et recommandations détaillées
+    ia_analysis: IAAnalysisDetail = Field(..., description="Analyse réalisée par l'IA avec causes et recommandations")
+
+    # Comparaison
+    comparison: dict = Field(..., description="Résultat de la comparaison")
 
 
 class ProjectAnalysisRequest(BaseModel):
