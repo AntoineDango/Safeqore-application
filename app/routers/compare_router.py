@@ -70,20 +70,28 @@ class IAAnalysisDetail(BaseModel):
     justification: Optional[str] = Field(None, description="Justification des valeurs G, F, P")
 
 
-class CompareResponse(BaseModel):
-    """Réponse de la comparaison humain vs IA."""
-    description: str = Field(..., description="Description du risque analysé")
-    category: str = Field(..., description="Catégorie")
-    type: str = Field(..., description="Type")
+class ProjectAnalysisRequest(BaseModel):
+    """Requête d'analyse complète d'un projet par l'IA."""
+    description: str = Field(..., description="Description complète du projet")
+    sector: Optional[str] = Field("", description="Secteur d'activité")
+    entity_services: Optional[str] = Field("", description="Services de l'entité")
+    analysis_title: str = Field(..., description="Titre de l'analyse")
 
-    # Analyse humaine
-    human_analysis: AnalysisDetail = Field(..., description="Analyse réalisée par l'humain")
+class IdentifiedRisk(BaseModel):
+    """Risque identifié par l'IA."""
+    title: str = Field(..., description="Titre du risque")
+    description: str = Field(..., description="Description détaillée du risque")
+    category: str = Field(..., description="Catégorie (Projet/Programme, Industriel, Qualité)")
+    type: str = Field(..., description="Type (Commercial, Financier, Technique, Cyber & SSI)")
+    estimated_G: int = Field(..., ge=1, le=5, description="Gravité estimée (1-5)")
+    estimated_F: int = Field(..., ge=1, le=5, description="Fréquence estimée (1-5)")
+    estimated_P: int = Field(..., ge=1, le=5, description="Probabilité estimée (1-5)")
 
-    # Analyse IA avec causes et recommandations détaillées
-    ia_analysis: IAAnalysisDetail = Field(..., description="Analyse réalisée par l'IA avec causes et recommandations")
-
-    # Comparaison
-    comparison: dict = Field(..., description="Résultat de la comparaison")
+class ProjectAnalysisResponse(BaseModel):
+    """Réponse de l'analyse IA du projet."""
+    project_title: str
+    identified_risks: List[IdentifiedRisk] = Field(..., description="Liste des risques identifiés par l'IA")
+    general_recommendations: List[str] = Field(default=[], description="Recommandations générales pour le projet")
 
 
 def calculate_difference(human_val: int, ia_val: int) -> dict:
@@ -363,3 +371,125 @@ async def export_compare_report(request: CompareRequest):
     bio.seek(0)
     headers = {"Content-Disposition": "attachment; filename=compare_report.docx"}
     return StreamingResponse(bio, media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document", headers=headers)
+
+
+@router.post("/analyze/project", response_model=ProjectAnalysisResponse)
+async def analyze_project_with_ai(request: ProjectAnalysisRequest):
+    """
+    Analyse complète d'un projet par l'IA pour identifier dynamiquement les risques.
+
+    Au lieu d'utiliser des risques statiques basés sur des mots-clés, cette endpoint:
+    1. Analyse la description complète du projet
+    2. Identifie les risques spécifiques au contexte
+    3. Fournit des estimations G/F/P pour chaque risque
+    4. Génère des recommandations générales
+
+    Cela permet une analyse vraiment personnalisée et pertinente.
+    """
+    # Prompt pour l'IA
+    prompt = f"""
+Tu es un expert en gestion des risques utilisant la méthode Kinney. Analyse ce projet et identifie les risques spécifiques.
+
+## Contexte du projet
+- Titre: {request.analysis_title}
+- Description: {request.description}
+- Secteur: {request.sector or 'Non spécifié'}
+- Services: {request.entity_services or 'Non spécifiés'}
+
+## Échelles Kinney
+- Gravité (G): 1=Négligeable, 2=Faible, 3=Modérée, 4=Grave, 5=Catastrophique
+- Fréquence (F): 1=Rare, 2=Occasionnel, 3=Fréquent, 4=Très fréquent, 5=Permanent
+- Probabilité (P): 1=Improbable, 2=Peu probable, 3=Probable, 4=Très probable, 5=Quasi certain
+
+## Catégories disponibles
+- Projet/Programme: risques liés à la gestion et exécution du projet
+- Industriel: risques techniques et opérationnels
+- Qualité: risques liés à la conformité, sécurité des données, qualité
+
+## Types disponibles
+- Commercial: risques business et stratégiques
+- Financier: risques budgétaires et économiques
+- Technique: risques technologiques et opérationnels
+- Cyber & SSI: risques de sécurité informatique et données
+
+## Instructions
+Identifie 4-6 risques SPECIFIQUES à ce projet. Pour chaque risque:
+1. Un titre concis et précis
+2. Une description détaillée expliquant pourquoi ce risque est pertinent
+3. La catégorie et le type appropriés
+4. Des estimations réalistes G, F, P basées sur le contexte
+
+Ajoute aussi 2-3 recommandations générales pour le projet.
+
+Répond STRICTEMENT en JSON avec ce format exact:
+{{
+  "project_title": "{request.analysis_title}",
+  "identified_risks": [
+    {{
+      "title": "Titre du risque 1",
+      "description": "Description détaillée du risque et pourquoi il s'applique à ce projet",
+      "category": "Projet/Programme",
+      "type": "Technique",
+      "estimated_G": 4,
+      "estimated_F": 3,
+      "estimated_P": 2
+    }},
+    {{
+      "title": "Titre du risque 2",
+      "description": "Description détaillée...",
+      "category": "Industriel",
+      "type": "Cyber & SSI",
+      "estimated_G": 5,
+      "estimated_F": 2,
+      "estimated_P": 3
+    }}
+  ],
+  "general_recommendations": [
+    "Recommandation générale 1 pour la gestion globale du projet",
+    "Recommandation générale 2...",
+    "Recommandation générale 3..."
+  ]
+}}
+"""
+
+    # Appel à l'IA
+    llm_out = call_llm_for_risk(prompt, "Projet/Programme", "Technique", request.sector or "")
+
+    if llm_out is None:
+        raise HTTPException(status_code=503, detail="Service IA indisponible. Réessayez plus tard.")
+
+    try:
+        # Parser la réponse JSON
+        import json
+        response_text = llm_out.get("justification", "") or str(llm_out)
+        # Nettoyer la réponse si nécessaire
+        start = response_text.find("{")
+        end = response_text.rfind("}") + 1
+        if start != -1 and end != -1:
+            json_str = response_text[start:end]
+            parsed = json.loads(json_str)
+        else:
+            parsed = json.loads(response_text)
+
+        # Valider la structure
+        if not isinstance(parsed, dict) or "identified_risks" not in parsed:
+            raise ValueError("Structure JSON invalide")
+
+        # Convertir en objets Pydantic
+        risks = []
+        for risk_data in parsed["identified_risks"]:
+            risk = IdentifiedRisk(**risk_data)
+            risks.append(risk)
+
+        recommendations = parsed.get("general_recommendations", [])
+
+        return ProjectAnalysisResponse(
+            project_title=request.analysis_title,
+            identified_risks=risks,
+            general_recommendations=recommendations
+        )
+
+    except Exception as e:
+        print(f"Erreur parsing réponse IA: {e}")
+        print(f"Réponse brute: {llm_out}")
+        raise HTTPException(status_code=502, detail="Réponse IA malformée")

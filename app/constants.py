@@ -57,9 +57,6 @@ SECTORS = [
     "Technologie",
     "Innovation",
     "Startup",
-    "TPE",
-    "PME",
-    "ETI"
 ]
 
 
