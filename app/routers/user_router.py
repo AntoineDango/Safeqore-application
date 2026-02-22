@@ -187,6 +187,14 @@ async def list_user_analyses(
     all_data = _load_analyses()
     projects = _load_projects()
     
+    # Debug: compter les user_uid
+    user_uid_counts = {}
+    for a in all_data:
+        uid = a.get("user_uid")
+        if uid:
+            user_uid_counts[uid] = user_uid_counts.get(uid, 0) + 1
+    print(f"[UserRouter] User UID counts: {user_uid_counts}")
+    
     # Filtrer uniquement les analyses de l'utilisateur connecté
     user_data = [
         analysis for analysis in all_data 

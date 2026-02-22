@@ -83,7 +83,8 @@
     "P": 2,
     "score": 8,
     "classification": "Faible",
-    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney)."
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260113163528_1",
@@ -169,7 +170,8 @@
     "P": 4,
     "score": 48,
     "classification": "Moyen",
-    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney)."
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260113164335_2",
@@ -255,7 +257,8 @@
     "P": 4,
     "score": 48,
     "classification": "Moyen",
-    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney)."
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260113164459_3",
@@ -341,7 +344,8 @@
     "P": 3,
     "score": 27,
     "classification": "Moyen",
-    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney)."
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260113165731_4",
@@ -427,7 +431,8 @@
     "P": 3,
     "score": 27,
     "classification": "Moyen",
-    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney)."
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QR_20260113170228_5",
@@ -476,7 +481,8 @@
     "classification": "Moyen",
     "justification": "Ré-estimation post-mesure (facteurs non impactés conservés)",
     "parent_id": "QA_20260113165731_4",
-    "measure_text": "renforce les mots de passe"
+    "measure_text": "renforce les mots de passe",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260113171925_6",
@@ -562,7 +568,8 @@
     "P": 2,
     "score": 4,
     "classification": "Faible",
-    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney)."
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260113172142_7",
@@ -648,7 +655,8 @@
     "P": 2,
     "score": 4,
     "classification": "Faible",
-    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney)."
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260113172214_8",
@@ -734,7 +742,8 @@
     "P": 2,
     "score": 4,
     "classification": "Faible",
-    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney)."
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260113183055_9",
@@ -820,7 +829,8 @@
     "P": 4,
     "score": 32,
     "classification": "Moyen",
-    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney)."
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QR_20260113183201_10",
@@ -869,7 +879,8 @@
     "classification": "Faible",
     "justification": "Ré-estimation post-mesure (facteurs non impactés conservés)",
     "parent_id": "QA_20260113183055_9",
-    "measure_text": "Faut il supprimer les voitures sur la route"
+    "measure_text": "Faut il supprimer les voitures sur la route",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260113184632_11",
@@ -955,7 +966,8 @@
     "P": 3,
     "score": 36,
     "classification": "Moyen",
-    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney)."
+    "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260114172410_12",
@@ -1042,7 +1054,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260114174522_13",
@@ -1129,7 +1142,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260114174700_14",
@@ -1216,7 +1230,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260114175131_15",
@@ -1303,7 +1318,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116212700_16",
@@ -1390,7 +1406,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116214640_17",
@@ -1477,7 +1494,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116214708_18",
@@ -1564,7 +1582,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116222412_19",
@@ -1651,7 +1670,8 @@
     "score": 64,
     "classification": "Élevé",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 51
+    "normalized_score_100": 51,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116223533_20",
@@ -1738,7 +1758,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116224130_21",
@@ -1825,7 +1846,8 @@
     "score": 40,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 32
+    "normalized_score_100": 32,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116224248_22",
@@ -1912,7 +1934,8 @@
     "score": 40,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 32
+    "normalized_score_100": 32,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116224249_23",
@@ -1999,7 +2022,8 @@
     "score": 40,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 32
+    "normalized_score_100": 32,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116224253_24",
@@ -2086,7 +2110,8 @@
     "score": 40,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 32
+    "normalized_score_100": 32,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116224255_25",
@@ -2173,7 +2198,8 @@
     "score": 40,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 32
+    "normalized_score_100": 32,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116224259_26",
@@ -2260,7 +2286,8 @@
     "score": 40,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 32
+    "normalized_score_100": 32,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116224311_27",
@@ -2347,7 +2374,8 @@
     "score": 40,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 32
+    "normalized_score_100": 32,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116231249_28",
@@ -2434,7 +2462,8 @@
     "score": 80,
     "classification": "Élevé",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 64
+    "normalized_score_100": 64,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116231413_29",
@@ -2521,7 +2550,8 @@
     "score": 60,
     "classification": "Élevé",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 48
+    "normalized_score_100": 48,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116231426_30",
@@ -2608,7 +2638,8 @@
     "score": 4,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 3
+    "normalized_score_100": 3,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116231649_31",
@@ -2695,7 +2726,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116231731_32",
@@ -2782,7 +2814,8 @@
     "score": 27,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 22
+    "normalized_score_100": 22,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116231750_33",
@@ -2869,7 +2902,8 @@
     "score": 125,
     "classification": "Élevé",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 100
+    "normalized_score_100": 100,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116231815_34",
@@ -2956,7 +2990,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116232249_35",
@@ -3043,7 +3078,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116232405_36",
@@ -3130,7 +3166,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116232721_37",
@@ -3217,7 +3254,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116233054_38",
@@ -3304,7 +3342,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116233146_39",
@@ -3391,7 +3430,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116234124_40",
@@ -3478,7 +3518,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116234136_41",
@@ -3565,7 +3606,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116234417_42",
@@ -3652,7 +3694,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116234442_43",
@@ -3739,7 +3782,8 @@
     "score": 27,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 22
+    "normalized_score_100": 22,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116234516_44",
@@ -3826,7 +3870,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116234907_45",
@@ -3913,7 +3958,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260116235829_46",
@@ -4000,7 +4046,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260117000106_47",
@@ -4087,7 +4134,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260117000628_48",
@@ -4174,7 +4222,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260117000927_49",
@@ -4261,7 +4310,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260117001156_50",
@@ -4348,7 +4398,8 @@
     "score": 24,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 19
+    "normalized_score_100": 19,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260117001714_51",
@@ -4435,7 +4486,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260118232326_52",
@@ -4522,7 +4574,8 @@
     "score": 24,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 19
+    "normalized_score_100": 19,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260118233936_53",
@@ -4609,7 +4662,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260118235536_54",
@@ -4696,7 +4750,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260118235819_55",
@@ -4783,7 +4838,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260119001124_56",
@@ -4870,7 +4926,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260119001421_57",
@@ -4957,7 +5014,8 @@
     "score": 24,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 19
+    "normalized_score_100": 19,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260119053252_58",
@@ -5044,7 +5102,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260119060802_59",
@@ -5131,7 +5190,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260119230310_60",
@@ -5218,7 +5278,8 @@
     "score": 24,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 19
+    "normalized_score_100": 19,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260119230349_61",
@@ -5305,7 +5366,8 @@
     "score": 24,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 19
+    "normalized_score_100": 19,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260119230357_62",
@@ -5392,7 +5454,8 @@
     "score": 24,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 19
+    "normalized_score_100": 19,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260119230404_63",
@@ -5479,7 +5542,8 @@
     "score": 24,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 19
+    "normalized_score_100": 19,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260119231824_64",
@@ -5566,7 +5630,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120001715_65",
@@ -5653,7 +5718,8 @@
     "score": 24,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 19
+    "normalized_score_100": 19,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120001933_66",
@@ -5740,7 +5806,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120003538_67",
@@ -5827,7 +5894,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120004457_68",
@@ -5914,7 +5982,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120004923_69",
@@ -6001,7 +6070,8 @@
     "score": 18,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 14
+    "normalized_score_100": 14,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120005637_70",
@@ -6088,7 +6158,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120010221_71",
@@ -6175,7 +6246,8 @@
     "score": 48,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 38
+    "normalized_score_100": 38,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120010548_72",
@@ -6262,7 +6334,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120011139_73",
@@ -6349,7 +6422,8 @@
     "score": 40,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 32
+    "normalized_score_100": 32,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120012000_74",
@@ -6436,7 +6510,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120012910_75",
@@ -6523,7 +6598,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120022451_76",
@@ -6610,7 +6686,8 @@
     "score": 18,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 14
+    "normalized_score_100": 14,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120023208_77",
@@ -6697,7 +6774,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120024052_78",
@@ -6784,7 +6862,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120024156_79",
@@ -6871,7 +6950,8 @@
     "score": 32,
     "classification": "Modéré",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 26
+    "normalized_score_100": 26,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260120024252_80",
@@ -6958,7 +7038,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124130616_81",
@@ -7045,7 +7126,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124131100_82",
@@ -7132,7 +7214,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124133635_83",
@@ -7219,7 +7302,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124133733_84",
@@ -7306,7 +7390,8 @@
     "score": 1,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 1
+    "normalized_score_100": 1,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124134744_85",
@@ -7393,7 +7478,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124134930_86",
@@ -7480,7 +7566,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124143025_87",
@@ -7567,7 +7654,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124143503_88",
@@ -7654,7 +7742,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124161644_89",
@@ -7741,7 +7830,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124163101_90",
@@ -7828,7 +7918,8 @@
     "score": 8,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 6
+    "normalized_score_100": 6,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124164215_91",
@@ -7915,7 +8006,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124171353_92",
@@ -8002,7 +8094,8 @@
     "score": 16,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 13
+    "normalized_score_100": 13,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124171526_93",
@@ -8089,7 +8182,8 @@
     "score": 12,
     "classification": "Faible",
     "justification": "Calcul basé sur la moyenne pondérée des contributions par dimension (méthode Kinney).",
-    "normalized_score_100": 10
+    "normalized_score_100": 10,
+    "user_uid": "gwDa4qOzqxRwF0MaMxwTQak7C4X2"
   },
   {
     "id": "QA_20260124172812_94",
