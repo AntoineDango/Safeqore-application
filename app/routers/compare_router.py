@@ -9,7 +9,7 @@ from io import BytesIO
 from docx import Document
 from pydantic import BaseModel, Field
 from typing import Optional, List
-from app.services.llm_service import call_llm_for_risk
+from app.services.llm_service import get_llm
 from app.services.ml_service import predict_classification
 from app.utils.normalize import kinney_score, classify_from_score
 from app.constants import RISK_CATEGORIES, RISK_TYPES
@@ -470,7 +470,10 @@ Répond STRICTEMENT en JSON avec ce format exact:
 """
 
     # Appel à l'IA
-    llm_out = call_llm_for_risk(prompt, "Projet/Programme", "Technique", request.sector or "")
+    llm = get_llm()
+    res = llm.invoke(prompt)
+    text = res.content.strip()
+    llm_out = text
 
     if llm_out is None:
         raise HTTPException(status_code=503, detail="Service IA indisponible. Réessayez plus tard.")
@@ -478,7 +481,7 @@ Répond STRICTEMENT en JSON avec ce format exact:
     try:
         # Parser la réponse JSON
         import json
-        response_text = llm_out.get("justification", "") or str(llm_out)
+        response_text = llm_out
         # Nettoyer la réponse si nécessaire
         start = response_text.find("{")
         end = response_text.rfind("}") + 1
