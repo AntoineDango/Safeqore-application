@@ -436,7 +436,7 @@ Identifie 4-6 risques SPECIFIQUES à ce projet. Pour chaque risque:
 3. La catégorie et le type appropriés
 4. Des estimations réalistes G, F, P basées sur le contexte
 
-Ajoute aussi 2-3 recommandations générales pour le projet.
+Ajoute aussi 3-5 recommandations générales DÉTAILLÉES et ACTIONNABLES pour le projet, basées sur les risques identifiés.
 
 Répond STRICTEMENT en JSON avec ce format exact:
 {{

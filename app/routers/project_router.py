@@ -392,14 +392,14 @@ async def delete_risk(
     return {"status": "ok", "message": "Risque supprimé"}
 
 
-@router.put("/{project_id}", response_model=AnalysisProject)
-async def update_project(
+@router.put("/{project_id}/status", response_model=AnalysisProject)
+async def update_project_status(
     project_id: str,
-    payload: UpdateProjectRequest,
+    payload: dict,  # {"status": "draft" | "completed"}
     current_user: dict = Depends(get_current_user)
 ):
     """
-    Met à jour les informations d'un projet existant
+    Met à jour uniquement le statut d'un projet
     """
     user_uid = current_user["uid"]
     
@@ -412,27 +412,16 @@ async def update_project(
     if project.get("user_uid") != user_uid:
         raise HTTPException(status_code=403, detail="Accès non autorisé")
     
-    # Mettre à jour uniquement les champs fournis
-    if payload.analysis_title is not None:
-        project["analysis_title"] = payload.analysis_title
+    new_status = payload.get("status")
+    if new_status not in ["draft", "completed"]:
+        raise HTTPException(status_code=400, detail="Statut invalide")
     
-    if payload.project_description is not None:
-        project["project_description"] = payload.project_description
-    
-    if payload.entity_type is not None:
-        project["entity_type"] = payload.entity_type
-    
-    if payload.entity_services is not None:
-        project["entity_services"] = payload.entity_services
-    
-    if payload.sector is not None:
-        project["sector"] = payload.sector
-    
+    project["status"] = new_status
     project["updated_at"] = datetime.now().isoformat()
     
     _save_projects(projects)
     
-    print(f"[ProjectRouter] Project {project_id} updated by user {user_uid}")
+    print(f"[ProjectRouter] Project {project_id} status updated to {new_status} by user {user_uid}")
     
     return AnalysisProject(**project)
 
