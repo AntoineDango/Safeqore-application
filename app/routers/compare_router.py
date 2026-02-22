@@ -103,6 +103,14 @@ class ProjectAnalysisResponse(BaseModel):
     general_recommendations: List[str] = Field(default=[], description="Recommandations générales pour le projet")
 
 
+class ProjectAnalysisRequest(BaseModel):
+    """Requête d'analyse IA du projet."""
+    analysis_title: str = Field(..., description="Titre de l'analyse")
+    description: str = Field(..., description="Description détaillée du projet")
+    sector: Optional[str] = Field(None, description="Secteur d'activité")
+    entity_services: Optional[str] = Field(None, description="Services de l'entité")
+
+
 def calculate_difference(human_val: int, ia_val: int) -> dict:
     """Calcule la différence entre valeurs humaine et IA."""
     diff = human_val - ia_val
