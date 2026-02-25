@@ -9,7 +9,7 @@ from io import BytesIO
 from docx import Document
 from pydantic import BaseModel, Field
 from typing import Optional, List
-from app.services.llm_service import get_llm
+from app.services.llm_service import get_llm, call_llm_for_risk
 from app.services.ml_service import predict_classification
 from app.utils.normalize import kinney_score, classify_from_score
 from app.constants import RISK_CATEGORIES, RISK_TYPES
