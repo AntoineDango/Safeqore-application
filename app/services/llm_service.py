@@ -10,10 +10,21 @@ GROQ_KEY = os.getenv("GROQ_API_KEY")
 # modèle par défaut (choisi selon ton compte Groq)
 DEFAULT_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
-def get_llm():
+def get_llm(max_tokens: int = 8192):
+    """
+    Retourne une instance du LLM Groq configurée.
+    
+    Args:
+        max_tokens: Nombre maximum de tokens de sortie (défaut: 8192 pour supporter plus de risques)
+    """
     if not GROQ_KEY:
         raise RuntimeError("GROQ_API_KEY not set in environment")
-    return ChatGroq(api_key=GROQ_KEY, model_name=DEFAULT_MODEL, temperature=float(os.getenv("GROQ_TEMPERATURE", "0.15")))
+    return ChatGroq(
+        api_key=GROQ_KEY, 
+        model_name=DEFAULT_MODEL, 
+        temperature=float(os.getenv("GROQ_TEMPERATURE", "0.15")),
+        max_tokens=max_tokens
+    )
 
 def call_llm_for_risk(description: str, category: str, typ: str, sector: str, retries=2, wait=1) -> Optional[Dict]:
     """

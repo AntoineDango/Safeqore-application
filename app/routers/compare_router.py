@@ -109,6 +109,7 @@ class ProjectAnalysisRequest(BaseModel):
     description: str = Field(..., description="Description détaillée du projet")
     sector: Optional[str] = Field(None, description="Secteur d'activité")
     entity_services: Optional[str] = Field(None, description="Services de l'entité")
+    num_risks: int = Field(default=6, ge=1, le=15, description="Nombre de risques à identifier (1-15, défaut: 6)")
 
 
 def calculate_difference(human_val: int, ia_val: int) -> dict:
@@ -403,6 +404,13 @@ async def analyze_project_with_ai(request: ProjectAnalysisRequest):
 
     Cela permet une analyse vraiment personnalisée et pertinente.
     """
+    # Calculer max_tokens en fonction du nombre de risques demandé
+    # ~500 tokens par risque + 1000 tokens de marge
+    max_tokens = min(8192, 1000 + (request.num_risks * 500))
+    
+    print(f"[AI Project Analysis] Demandé: {request.num_risks} risques")
+    print(f"[AI Project Analysis] Max tokens configuré: {max_tokens}")
+    
     # Prompt pour l'IA
     prompt = f"""
 Tu es un expert en gestion des risques utilisant la méthode Kinney. Analyse ce projet et identifie les risques spécifiques.
@@ -430,7 +438,7 @@ Tu es un expert en gestion des risques utilisant la méthode Kinney. Analyse ce 
 - Cyber & SSI: risques de sécurité informatique et données
 
 ## Instructions
-Identifie 4-6 risques SPECIFIQUES à ce projet. Pour chaque risque:
+Identifie EXACTEMENT {request.num_risks} risques SPECIFIQUES à ce projet. Pour chaque risque:
 1. Un titre concis et précis
 2. Une description détaillée expliquant pourquoi ce risque est pertinent
 3. La catégorie et le type appropriés
@@ -469,8 +477,8 @@ Répond STRICTEMENT en JSON avec ce format exact:
 }}
 """
 
-    # Appel à l'IA
-    llm = get_llm()
+    # Appel à l'IA avec max_tokens adapté
+    llm = get_llm(max_tokens=max_tokens)
     res = llm.invoke(prompt)
     text = res.content.strip()
     llm_out = text
@@ -482,6 +490,10 @@ Répond STRICTEMENT en JSON avec ce format exact:
         # Parser la réponse JSON
         import json
         response_text = llm_out
+        
+        # Logs de diagnostic
+        print(f"[AI Project Analysis] Taille de la réponse: {len(response_text)} caractères")
+        
         # Nettoyer la réponse si nécessaire
         start = response_text.find("{")
         end = response_text.rfind("}") + 1
@@ -502,6 +514,20 @@ Répond STRICTEMENT en JSON avec ce format exact:
             risks.append(risk)
 
         recommendations = parsed.get("general_recommendations", [])
+        
+        # Logs de diagnostic détaillés
+        print(f"[AI Project Analysis] ✅ Risques reçus: {len(risks)}/{request.num_risks}")
+        
+        if len(risks) < request.num_risks:
+            print(f"[AI Project Analysis] ⚠️ ATTENTION: Réponse possiblement tronquée!")
+            print(f"[AI Project Analysis] ⚠️ Manque {request.num_risks - len(risks)} risque(s)")
+            print(f"[AI Project Analysis] 💡 Suggestion: Réduire num_risks ou augmenter max_tokens")
+        elif len(risks) > request.num_risks:
+            print(f"[AI Project Analysis] ℹ️ L'IA a généré {len(risks) - request.num_risks} risque(s) supplémentaire(s)")
+        else:
+            print(f"[AI Project Analysis] ✅ Nombre de risques exact!")
+        
+        print(f"[AI Project Analysis] Recommandations générales: {len(recommendations)}")
 
         return ProjectAnalysisResponse(
             project_title=request.analysis_title,
@@ -510,6 +536,7 @@ Répond STRICTEMENT en JSON avec ce format exact:
         )
 
     except Exception as e:
-        print(f"Erreur parsing réponse IA: {e}")
-        print(f"Réponse brute: {llm_out}")
-        raise HTTPException(status_code=502, detail="Réponse IA malformée")
+        print(f"[AI Project Analysis] ❌ Erreur parsing réponse IA: {e}")
+        print(f"[AI Project Analysis] Réponse brute (premiers 500 chars): {llm_out[:500]}")
+        print(f"[AI Project Analysis] Réponse brute (derniers 500 chars): {llm_out[-500:]}")
+        raise HTTPException(status_code=502, detail=f"Réponse IA malformée: {str(e)}")
